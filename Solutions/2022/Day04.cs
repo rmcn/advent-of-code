@@ -29,7 +29,7 @@ class Day04 : IDay
 
         foreach (var line in input.Lines().Where(l => l != ""))
         {
-            var nums = new Regex("[0-9]+").Matches(line).Select(m => m.Value).Select(n => int.Parse(n)).ToList();
+            var nums = line.Ints();
             if ((nums[0] < nums[2] && nums[1] < nums[2]) || (nums[0] > nums[3] && nums[1] > nums[3]))
             {
             }
