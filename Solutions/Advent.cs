@@ -39,13 +39,6 @@ static class Advent
         }
         else
         {
-            Console.WriteLine("Submit? [y|n]");
-            var confirm = Console.ReadLine()!;
-            if (confirm.ToLower() != "y")
-            {
-                Console.WriteLine("Skipping");
-                return;
-            }
             File.WriteAllText(path, answer);
         }
 
