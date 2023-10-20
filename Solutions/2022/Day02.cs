@@ -5,7 +5,7 @@ class Day02 : IDay
     public int Year => 2022;
     public int Day => 2;
 
-    public string One(string input) => input.Lines().Where(IsNotBlank).Select(ScoreOne).Sum().ToString();
+    public (bool, string) One(string input) => (true, input.Lines().Where(IsNotBlank).Select(ScoreOne).Sum().ToString());
 
     private static int ScoreOne(string line)
     {
@@ -26,7 +26,7 @@ class Day02 : IDay
         };
     }
 
-    public string Two(string input) => input.Lines().Where(IsNotBlank).Select(ScoreTwo).Sum().ToString();
+    public (bool, string) Two(string input) => (true, input.Lines().Where(IsNotBlank).Select(ScoreTwo).Sum().ToString());
 
     private static int ScoreTwo(string line)
     {

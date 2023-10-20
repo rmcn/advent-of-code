@@ -5,7 +5,7 @@ class Day05 : IDay
     public int Year => 2022;
     public int Day => 5;
 
-    public string One(string input) 
+    public (bool, string) One(string input) 
     {
         var lines = input.Lines();
 
@@ -27,10 +27,10 @@ class Day05 : IDay
             }
         }
 
-        return new string(stacks.Select(s => s.Pop()).ToArray());
+        return (true, new string(stacks.Select(s => s.Pop()).ToArray()));
     }
 
-    public string Two(string input)
+    public (bool, string) Two(string input)
     {
         var lines = input.Lines();
 
@@ -57,6 +57,6 @@ class Day05 : IDay
             }
         }
 
-        return new string(stacks.Select(s => s.Pop()).ToArray());
+        return (true, new string(stacks.Select(s => s.Pop()).ToArray()));
     }
 }

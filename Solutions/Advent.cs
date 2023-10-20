@@ -24,28 +24,25 @@ static class Advent
         return input;
     }
 
-    static void Submit(IDay day, int level, string answer)
+    static void Submit(IDay day, int level, (bool submit, string value) answer)
     {
-        Console.WriteLine($"Submit {day.Year} {day.Day} {level}: {answer}");
-
         var path = Path.Combine(CacheDir, day.Year.ToString(), $"{day.Day:00}-{level}-Solution.txt");
-        if (File.Exists(path))
+        var submitted = File.Exists(path) && File.ReadAllText(path) == answer.value;
+
+        var action = !answer.submit ? "View" : submitted ? "Submitted" : "Submitting";
+        Console.WriteLine($"{action} {day.Year} {day.Day} {level}: {answer.value}");
+
+        if (!answer.submit || submitted)
         {
-            if (File.ReadAllText(path) == answer)
-            {
-                Console.WriteLine("Already submitted this answer");
-                return;
-            }
+            return;
         }
-        else
-        {
-            File.WriteAllText(path, answer);
-        }
+
+        File.WriteAllText(path, answer.value);
 
         var nvc = new NameValueCollection()
         {
             { "level", level.ToString() },
-            { "answer", answer }
+            { "answer", answer.value }
         };
 
         using var wc = new WebClient();

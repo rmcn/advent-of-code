@@ -4,6 +4,6 @@ interface IDay
 {
     int Year { get; }
     int Day { get; }
-    string One(string input);
-    string Two(string input);
+    (bool, string) One(string input);
+    (bool, string) Two(string input);
 }

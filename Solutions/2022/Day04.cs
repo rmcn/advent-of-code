@@ -7,7 +7,7 @@ class Day04 : IDay
     public int Year => 2022;
     public int Day => 4;
 
-    public string One(string input) 
+    public (bool, string) One(string input) 
     {
         var t = 0;
 
@@ -20,10 +20,10 @@ class Day04 : IDay
             }
         }
 
-        return t.ToString();
+        return (true, t.ToString());
     }
 
-    public string Two(string input)
+    public (bool, string) Two(string input)
     {
         var t = 0;
 
@@ -37,6 +37,6 @@ class Day04 : IDay
                 t++;
         }
 
-        return t.ToString();
+        return (true, t.ToString());
     }
 }
