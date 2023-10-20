@@ -2,9 +2,6 @@
 
 class Day05 : IDay
 {
-    public int Year => 2022;
-    public int Day => 5;
-
     public (bool, string) One(string input) 
     {
         var lines = input.Lines();

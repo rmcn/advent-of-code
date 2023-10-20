@@ -2,9 +2,6 @@ namespace AdventOfCode.Year2022;
 
 class Day01 : IDay
 {
-    public int Year => 2022;
-    public int Day => 1;
-
     public (bool, string) One(string input) => (true, Totals(input).OrderByDescending(c => c).First().ToString());
 
     public (bool, string) Two(string input) => (true, Totals(input).OrderByDescending(c => c).Take(3).Sum().ToString());

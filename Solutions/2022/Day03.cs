@@ -2,9 +2,6 @@
 
 class Day03 : IDay
 {
-    public int Year => 2022;
-    public int Day => 3;
-
     public (bool, string) One(string input) 
     {
         var t = 0;

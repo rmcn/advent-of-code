@@ -2,9 +2,6 @@
 
 class Day06 : IDay
 {
-    public int Year => 2022;
-    public int Day => 6;
-
     public (bool, string) One(string input) 
     {
         int i;

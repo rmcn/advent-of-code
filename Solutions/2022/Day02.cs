@@ -2,9 +2,6 @@
 
 class Day02 : IDay
 {
-    public int Year => 2022;
-    public int Day => 2;
-
     public (bool, string) One(string input) => (true, input.Lines().Where(IsNotBlank).Select(ScoreOne).Sum().ToString());
 
     private static int ScoreOne(string line)

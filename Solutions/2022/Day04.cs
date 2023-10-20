@@ -4,9 +4,6 @@ namespace AdventOfCode.Year2022;
 
 class Day04 : IDay
 {
-    public int Year => 2022;
-    public int Day => 4;
-
     public (bool, string) One(string input) 
     {
         var t = 0;
