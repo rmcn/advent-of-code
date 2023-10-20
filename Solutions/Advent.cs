@@ -1,10 +1,13 @@
 using System.Collections.Specialized;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using AdventOfCode;
 
 static class Advent
 {
+    private static readonly HttpClient Client = new(new HttpClientHandler { UseCookies = false }) { BaseAddress = new Uri("https://adventofcode.com/") };
+
     private static string CacheDir => Environment.GetEnvironmentVariable("AOC_CACHE_DIR") ?? "";
 
     private static string Cookie() => File.ReadAllText(Path.Combine(CacheDir, "Cookie.txt"));
@@ -17,9 +20,14 @@ static class Advent
             return File.ReadAllText(path);
         }
 
-        using var wc = new WebClient();
-        wc.Headers.Add(HttpRequestHeader.Cookie, Cookie());
-        var input = wc.DownloadString($"https://adventofcode.com/{day.Year}/day/{day.Day}/input");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"{day.Year}/day/{day.Day}/input");
+        request.Headers.Add("Cookie", Cookie());
+
+        var result = Client.Send(request);
+        result.EnsureSuccessStatusCode();
+
+        var input = result.Content.ReadAsStringAsync().Result;
+
         File.WriteAllText(path, input);
         return input;
     }
@@ -39,16 +47,23 @@ static class Advent
 
         File.WriteAllText(path, answer.value);
 
-        var nvc = new NameValueCollection()
+        var nvc = new Dictionary<string, string>()
         {
             { "level", level.ToString() },
             { "answer", answer.value }
         };
 
-        using var wc = new WebClient();
-        wc.Headers.Add(HttpRequestHeader.Cookie, Cookie());
-        var result = wc.UploadValues($"https://adventofcode.com/{day.Year}/day/{day.Day}/answer", "POST", nvc);
-        var text = Encoding.UTF8.GetString(result);
+
+        var request = new HttpRequestMessage(HttpMethod.Post, $"{day.Year}/day/{day.Day}/answer")
+        {
+            Content = new FormUrlEncodedContent(nvc)
+        };
+        request.Headers.Add("Cookie", Cookie());
+
+        var result = Client.Send(request);
+        result.EnsureSuccessStatusCode();
+
+        var text = result.Content.ReadAsStringAsync().Result;
 
         var article = string.Join('\n', text.Split("\n").Where(l => l.Contains("<article>")));
 
