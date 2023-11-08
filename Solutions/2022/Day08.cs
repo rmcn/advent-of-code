@@ -1,6 +1,4 @@
-﻿
-
-namespace AdventOfCode.Year2022;
+﻿namespace AdventOfCode.Year2022;
 
 public class Day08 : IDay
 {

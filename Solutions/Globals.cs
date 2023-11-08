@@ -1,5 +1,6 @@
 ﻿global using MoreLinq;
 global using static AdventOfCode.Globals;
+global using static System.Math;
 
 namespace AdventOfCode
 {

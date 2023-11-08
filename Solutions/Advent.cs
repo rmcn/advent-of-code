@@ -11,7 +11,11 @@ static class Advent
     private static string CacheDir => Environment.GetEnvironmentVariable("AOC_CACHE_DIR") ?? "";
 
     private static string PathFor(IDay day, string type)
-        => Path.Combine(CacheDir, $"{day.Year}", $"{day.Day:00}", $"{day.Day:00}-{type}.txt");
+    {
+        var dir = Path.Combine(CacheDir, $"{day.Year}", $"{day.Day:00}");
+        Directory.CreateDirectory(dir);
+        return Path.Combine(dir, $"{day.Day:00}-{type}.txt");
+    }
 
     private static string Cookie() => File.ReadAllText(Path.Combine(CacheDir, "Cookie.txt"));
 
