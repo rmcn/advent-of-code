@@ -4,10 +4,8 @@ public class Day01: IDay
 {
     public (bool, string) One(string input)
     {
-        int t = 0;
-
-        var up = input.Trim().Select(c => c).Where(c => c == '(').Count();
-        var down = input.Trim().Select(c => c).Where(c => c == ')').Count();
+        var up = input.Count(c => c == '(');
+        var down = input.Count(c => c == ')');
 
         return (true, (up - down).ToString());
     }
