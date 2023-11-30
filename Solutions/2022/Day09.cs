@@ -19,7 +19,8 @@ public class Day09 : IDay
                 'R' => (1, 0),
                 'U' => (0, 1),
                 'L' => (-1, 0),
-                'D' => (0, -1)
+                'D' => (0, -1),
+                _ => throw new Exception()
             };
 
             for(int i = 0; i < dist; i++)
@@ -79,7 +80,8 @@ public class Day09 : IDay
                 'R' => (1, 0),
                 'U' => (0, 1),
                 'L' => (-1, 0),
-                'D' => (0, -1)
+                'D' => (0, -1),
+                _ => throw new Exception()
             };
 
             for(int i = 0; i < dist; i++)
