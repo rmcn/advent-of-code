@@ -2,7 +2,7 @@
 
 public class Day08 : IDay
 {
-    public (bool, string) One(string input)
+    public (bool, object) One(string input)
     {
         int c = 0;
         var g = input.Lines().Where(IsNotBlank).Select(s => s.Trim()).ToArray();
@@ -81,7 +81,7 @@ public class Day08 : IDay
         return true;
     }
 
-    public (bool, string) Two(string input)
+    public (bool, object) Two(string input)
     {
         int c = 0;
         var g = input.Lines().Where(IsNotBlank).Select(s => s.Trim()).ToArray();

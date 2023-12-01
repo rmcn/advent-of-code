@@ -2,7 +2,7 @@
 
 public class Day07 : IDay
 {
-    public (bool, string) One(string input)
+    public (bool, object) One(string input)
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();
@@ -37,7 +37,7 @@ public class Day07 : IDay
         return (true, a.ToString());
     }
 
-    public (bool, string) Two(string input)
+    public (bool, object) Two(string input)
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();

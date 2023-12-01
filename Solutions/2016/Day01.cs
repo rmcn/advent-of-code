@@ -2,7 +2,7 @@
 
 public class Day01 : IDay
 {
-    public (bool, string) One(string input)
+    public (bool, object) One(string input)
     {
         var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Ints()[0])).ToList();
 
@@ -26,7 +26,7 @@ public class Day01 : IDay
         return (true, (Abs(be) + Abs(bn)).ToString());
     }
 
-    public (bool, string) Two(string input)
+    public (bool, object) Two(string input)
     {
         var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Ints()[0])).ToList();
 

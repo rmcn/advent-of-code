@@ -2,7 +2,7 @@
 
 public class TemplateForDay00 : IDay
 {
-    public (bool, string) One(string input)
+    public (bool, object) One(string input)
     {
         int t = 0;
 
@@ -21,7 +21,7 @@ public class TemplateForDay00 : IDay
         return (false, t.ToString());
     }
 
-    public (bool, string) Two(string input)
+    public (bool, object) Two(string input)
     {
         throw new NotImplementedException();
     }

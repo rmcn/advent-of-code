@@ -85,10 +85,10 @@ static class Advent
         return example;
     }
 
-    static void Submit(IDay day, int level, (bool submit, string value) answer)
+    static void Submit(IDay day, int level, (bool submit, object value) answer)
     {
         var path = PathFor(day, $"{level}-Solution");
-        var submitted = File.Exists(path) && File.ReadAllText(path) == answer.value;
+        var submitted = File.Exists(path) && File.ReadAllText(path) == answer.value.ToString();
 
         var action = !answer.submit ? "View" : submitted ? "Submitted" : "Submitting";
         Console.WriteLine($"{action} {day.Year} {day.Day} {level}: {answer.value}");
@@ -98,12 +98,12 @@ static class Advent
             return;
         }
 
-        File.WriteAllText(path, answer.value);
+        File.WriteAllText(path, answer.value.ToString());
 
         var nvc = new Dictionary<string, string>()
         {
             { "level", level.ToString() },
-            { "answer", answer.value }
+            { "answer", answer.value.ToString() ?? string.Empty }
         };
 
 

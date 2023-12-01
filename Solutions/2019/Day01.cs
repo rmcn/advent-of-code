@@ -2,7 +2,7 @@
 
 public class Day01 : IDay
 {
-    public (bool, string) One(string input)
+    public (bool, object) One(string input)
     {
         decimal t = 0;
 
@@ -15,7 +15,7 @@ public class Day01 : IDay
         return (true, t.ToString());
     }
 
-    public (bool, string) Two(string input)
+    public (bool, object) Two(string input)
     {
         decimal t = 0;
 

@@ -2,7 +2,7 @@
 
 public class Day01: IDay
 {
-    public (bool, string) One(string input)
+    public (bool, object) One(string input)
     {
         var up = input.Count(c => c == '(');
         var down = input.Count(c => c == ')');
@@ -10,7 +10,7 @@ public class Day01: IDay
         return (true, (up - down).ToString());
     }
 
-    public (bool, string) Two(string input)
+    public (bool, object) Two(string input)
     {
         int t = 0;
 

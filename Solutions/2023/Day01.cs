@@ -4,18 +4,18 @@ using DigitMap = Dictionary<string, char>;
 
 public class Day01 : IDay
 {
-    public (bool, string) One(string input) =>
+    public (bool, object) One(string input) =>
     (
         false,
-        input.Lines().Where(IsNotBlank).Select(CalibrationOne).Sum().ToString()
+        input.Lines().Where(IsNotBlank).Select(CalibrationOne).Sum()
     );
 
     int CalibrationOne(string s) => $"{FirstDigit(s)}{LastDigit(s)}".Int();
 
-    public (bool, string) Two(string input) =>
+    public (bool, object) Two(string input) =>
     (
         false,
-        input.Lines().Where(IsNotBlank).Select(CalibrationTwo).Sum().ToString()
+        input.Lines().Where(IsNotBlank).Select(CalibrationTwo).Sum()
     );
 
     int CalibrationTwo(string s) => $"{FirstDigitOrWord(s)}{LastDigitOrWord(s)}".Int();

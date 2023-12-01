@@ -2,7 +2,7 @@
 
 class Day06 : IDay
 {
-    public (bool, string) One(string input) 
+    public (bool, object) One(string input) 
     {
         int i;
         for (i = 0; i < input.Length; i++)
@@ -16,7 +16,7 @@ class Day06 : IDay
         return (true, (i + 4).ToString());
     }
 
-    public (bool, string) Two(string input)
+    public (bool, object) Two(string input)
     {
         int i;
         for (i = 0; i < input.Length; i++)

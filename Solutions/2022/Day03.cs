@@ -2,7 +2,7 @@
 
 class Day03 : IDay
 {
-    public (bool, string) One(string input) 
+    public (bool, object) One(string input) 
     {
         var t = 0;
 
@@ -26,7 +26,7 @@ class Day03 : IDay
         return (true, t.ToString());
     }
 
-    public (bool, string) Two(string input)
+    public (bool, object) Two(string input)
     {
         var t = 0;
 

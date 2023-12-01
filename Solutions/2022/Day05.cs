@@ -2,7 +2,7 @@
 
 class Day05 : IDay
 {
-    public (bool, string) One(string input) 
+    public (bool, object) One(string input) 
     {
         var lines = input.Lines();
 
@@ -27,7 +27,7 @@ class Day05 : IDay
         return (true, new string(stacks.Select(s => s.Pop()).ToArray()));
     }
 
-    public (bool, string) Two(string input)
+    public (bool, object) Two(string input)
     {
         var lines = input.Lines();
 
