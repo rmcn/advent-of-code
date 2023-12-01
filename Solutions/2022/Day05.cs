@@ -2,7 +2,7 @@
 
 class Day05 : IDay
 {
-    public (bool, object) One(string input) 
+    public object One(string input) 
     {
         var lines = input.Lines();
 
@@ -24,10 +24,10 @@ class Day05 : IDay
             }
         }
 
-        return (true, new string(stacks.Select(s => s.Pop()).ToArray()));
+        return new string(stacks.Select(s => s.Pop()).ToArray());
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         var lines = input.Lines();
 
@@ -54,6 +54,6 @@ class Day05 : IDay
             }
         }
 
-        return (true, new string(stacks.Select(s => s.Pop()).ToArray()));
+        return new string(stacks.Select(s => s.Pop()).ToArray());
     }
 }

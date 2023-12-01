@@ -2,7 +2,7 @@
 
 public class Day08 : IDay
 {
-    public (bool, object) One(string input)
+    public object One(string input)
     {
         int c = 0;
         var g = input.Lines().Where(IsNotBlank).Select(s => s.Trim()).ToArray();
@@ -19,7 +19,7 @@ public class Day08 : IDay
             
         }
 
-        return (true, c.ToString());
+        return c;
     }
 
     private bool isVis(int x, int y, string[] g)
@@ -81,7 +81,7 @@ public class Day08 : IDay
         return true;
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         int c = 0;
         var g = input.Lines().Where(IsNotBlank).Select(s => s.Trim()).ToArray();
@@ -94,7 +94,7 @@ public class Day08 : IDay
             }
         }
 
-        return (true, c.ToString());
+        return c;
 
     }
 

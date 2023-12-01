@@ -2,9 +2,9 @@ namespace AdventOfCode.Year2022;
 
 class Day01 : IDay
 {
-    public (bool, object) One(string input) => (true, Totals(input).OrderByDescending(c => c).First().ToString());
+    public object One(string input) => Totals(input).OrderByDescending(c => c).First();
 
-    public (bool, object) Two(string input) => (true, Totals(input).OrderByDescending(c => c).Take(3).Sum().ToString());
+    public object Two(string input) => Totals(input).OrderByDescending(c => c).Take(3).Sum();
 
     private static List<int> Totals(string input) =>
         input

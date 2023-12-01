@@ -2,7 +2,7 @@
 
 class Day02 : IDay
 {
-    public (bool, object) One(string input) => (true, input.Lines().Where(IsNotBlank).Select(ScoreOne).Sum().ToString());
+    public object One(string input) => input.Lines().Where(IsNotBlank).Select(ScoreOne).Sum();
 
     private static int ScoreOne(string line)
     {
@@ -23,7 +23,7 @@ class Day02 : IDay
         };
     }
 
-    public (bool, object) Two(string input) => (true, input.Lines().Where(IsNotBlank).Select(ScoreTwo).Sum().ToString());
+    public object Two(string input) => input.Lines().Where(IsNotBlank).Select(ScoreTwo).Sum();
 
     private static int ScoreTwo(string line)
     {

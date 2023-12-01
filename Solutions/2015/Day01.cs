@@ -2,15 +2,15 @@
 
 public class Day01: IDay
 {
-    public (bool, object) One(string input)
+    public object One(string input)
     {
         var up = input.Count(c => c == '(');
         var down = input.Count(c => c == ')');
 
-        return (true, (up - down).ToString());
+        return up - down;
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         int t = 0;
 
@@ -21,9 +21,9 @@ public class Day01: IDay
             if (c == ')') t--;
 
             if (t == -1)
-                return (true, (i + 1).ToString());
+                return i + 1;
         }
 
-        return (false, t.ToString());
+        return t;
     }
 }

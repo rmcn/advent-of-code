@@ -2,7 +2,7 @@
 
 public class Day01 : IDay
 {
-    public (bool, object) One(string input)
+    public object One(string input)
     {
         int t = 0;
         var s = input.Trim();
@@ -15,10 +15,10 @@ public class Day01 : IDay
                 t += s[i].ToString().Int();
         }
 
-        return (true, t.ToString());
+        return t;
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         int t = 0;
         var s = input.Trim();
@@ -31,6 +31,6 @@ public class Day01 : IDay
                 t += s[i].ToString().Int();
         }
 
-        return (true, t.ToString());
+        return t;
     }
 }

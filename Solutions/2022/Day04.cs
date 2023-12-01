@@ -4,7 +4,7 @@ namespace AdventOfCode.Year2022;
 
 class Day04 : IDay
 {
-    public (bool, object) One(string input) 
+    public object One(string input) 
     {
         var t = 0;
 
@@ -17,10 +17,10 @@ class Day04 : IDay
             }
         }
 
-        return (true, t.ToString());
+        return t;
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         var t = 0;
 
@@ -34,6 +34,6 @@ class Day04 : IDay
                 t++;
         }
 
-        return (true, t.ToString());
+        return t;
     }
 }

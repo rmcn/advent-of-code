@@ -4,7 +4,7 @@ namespace AdventOfCode.Year2022;
 
 public class Day09 : IDay
 {
-    public (bool, object) One(string input)
+    public object One(string input)
     {
         var h = new Point(0, 0);
         var t = new Point(0, 0);
@@ -63,10 +63,10 @@ public class Day09 : IDay
                     locs.Add(loc);
             }
         }
-        return (true, locs.Count.ToString());
+        return locs.Count;
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         var r = new Point[10];
 
@@ -133,6 +133,6 @@ public class Day09 : IDay
                     locs.Add(loc);
             }
         }
-        return (false, locs.Count.ToString());
+        return locs.Count;
     }
 }

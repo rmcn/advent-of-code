@@ -2,7 +2,7 @@
 
 public class Day01 : IDay
 {
-    public (bool, object) One(string input)
+    public object One(string input)
     {
         decimal t = 0;
 
@@ -12,10 +12,10 @@ public class Day01 : IDay
             t += Floor(x / 3) - 2;
         }
 
-        return (true, t.ToString());
+        return t.ToString();
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         decimal t = 0;
 
@@ -33,6 +33,6 @@ public class Day01 : IDay
 
         }
 
-        return (true, t.ToString());
+        return t.ToString();
     }
 }

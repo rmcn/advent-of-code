@@ -2,7 +2,7 @@
 
 public class Day01 : IDay
 {
-    public (bool, object) One(string input)
+    public object One(string input)
     {
         var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Ints()[0])).ToList();
 
@@ -23,10 +23,10 @@ public class Day01 : IDay
             if (f % 4 == 3) be -= d;
         }
 
-        return (true, (Abs(be) + Abs(bn)).ToString());
+        return Abs(be) + Abs(bn);
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Ints()[0])).ToList();
 
@@ -50,7 +50,7 @@ public class Day01 : IDay
                 {
                     bn++;
                     if (seen.Contains($"{bn},{be}"))
-                        return (true, (Abs(be) + Abs(bn)).ToString());
+                        return Abs(be) + Abs(bn);
                     seen.Add($"{bn},{be}");
                 }
             }
@@ -61,7 +61,7 @@ public class Day01 : IDay
                 {
                     be++;
                     if (seen.Contains($"{bn},{be}"))
-                        return (true, (Abs(be) + Abs(bn)).ToString());
+                        return Abs(be) + Abs(bn);
                     seen.Add($"{bn},{be}");
                 }
             }
@@ -72,7 +72,7 @@ public class Day01 : IDay
                 {
                     bn--;
                     if (seen.Contains($"{bn},{be}"))
-                        return (true, (Abs(be) + Abs(bn)).ToString());
+                        return Abs(be) + Abs(bn);
                     seen.Add($"{bn},{be}");
                 }
             }
@@ -83,13 +83,13 @@ public class Day01 : IDay
                 {
                     be--;
                     if (seen.Contains($"{bn},{be}"))
-                        return (true, (Abs(be) + Abs(bn)).ToString());
+                        return Abs(be) + Abs(bn);
                     seen.Add($"{bn},{be}");
                 }
             }
 
         }
 
-        return (true, (Abs(be) + Abs(bn)).ToString());
+        return Abs(be) + Abs(bn);
     }
 }

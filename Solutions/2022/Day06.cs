@@ -2,7 +2,7 @@
 
 class Day06 : IDay
 {
-    public (bool, object) One(string input) 
+    public object One(string input) 
     {
         int i;
         for (i = 0; i < input.Length; i++)
@@ -13,10 +13,10 @@ class Day06 : IDay
             }
         }
 
-        return (true, (i + 4).ToString());
+        return i + 4;
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         int i;
         for (i = 0; i < input.Length; i++)
@@ -27,6 +27,6 @@ class Day06 : IDay
             }
         }
 
-        return (true, (i + 14).ToString());
+        return i + 14;
     }
 }

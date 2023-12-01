@@ -2,7 +2,7 @@
 
 public class Day10 : IDay
 {
-    public (bool, object) One(string input)
+    public object One(string input)
     {
         int x = 1;
         int t = 1;
@@ -35,7 +35,7 @@ public class Day10 : IDay
 
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         int x = 1;
         int t = 1;

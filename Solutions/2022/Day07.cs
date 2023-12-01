@@ -2,7 +2,7 @@
 
 public class Day07 : IDay
 {
-    public (bool, object) One(string input)
+    public object One(string input)
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();
@@ -34,10 +34,10 @@ public class Day07 : IDay
             }
         }
 
-        return (true, a.ToString());
+        return a;
     }
 
-    public (bool, object) Two(string input)
+    public object Two(string input)
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();
@@ -71,6 +71,6 @@ public class Day07 : IDay
 
         var a = totals.OrderBy(kvp => kvp.Value).Where(kvp => kvp.Value >= t).First().Value;
 
-        return (true, a.ToString());
+        return a;
     }
 }
