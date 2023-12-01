@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Year0000;
 
-public class TemplateForDay00 : IDay
+public class Day00 : IDay
 {
     public object One(string input)
     {
