@@ -20,7 +20,7 @@ public class Day02 : IDay
             }
         }
 
-        return t.Submit();
+        return t;
     }
 
     private bool IsPossible(string round)

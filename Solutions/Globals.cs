@@ -9,7 +9,6 @@ namespace AdventOfCode
         public static bool IsBlank(string s) => string.IsNullOrWhiteSpace(s);
         public static bool IsNotBlank(string s) => !IsBlank(s);
         public static int Int(string s) => int.Parse(s);
-        public static SubmitAnswer Submit(object value) => new(value);
         public static Dictionary<TKey, TValue> Merge<TKey, TValue>(params IDictionary<TKey, TValue>[] dicts)
             where TKey: notnull
         {

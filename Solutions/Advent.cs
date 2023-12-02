@@ -133,8 +133,8 @@ static class Advent
         var example = Example(question);
         if (example != "")
         {
-            var exampleAnswer = day.One(example);
-            Console.WriteLine($"Answer: {exampleAnswer}");
+            Console.WriteLine($"Example 1: {day.One(example)}");
+            Console.WriteLine($"Example 2: {day.Two(example)}");
         }
 
         var input = InputFor(day);
