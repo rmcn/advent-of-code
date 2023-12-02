@@ -20,7 +20,7 @@ public class Day07 : Solution
 
             if (char.IsDigit(line[0]))
             {
-                sizes[string.Join('/', path.Reverse())] = sizes[string.Join('/', path.Reverse())] + line.Ints()[0];
+                sizes[string.Join('/', path.Reverse())] = sizes[string.Join('/', path.Reverse())] + line.Int();
             }
         }
 
@@ -55,7 +55,7 @@ public class Day07 : Solution
 
             if (char.IsDigit(line[0]))
             {
-                sizes[string.Join('/', path.Reverse())] = sizes[string.Join('/', path.Reverse())] + line.Ints()[0];
+                sizes[string.Join('/', path.Reverse())] = sizes[string.Join('/', path.Reverse())] + line.Int();
             }
         }
 

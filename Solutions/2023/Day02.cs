@@ -1,6 +1,4 @@
 ﻿
-using System.Text.RegularExpressions;
-
 namespace AdventOfCode.Year2023;
 
 public class Day02 : Solution
@@ -16,7 +14,7 @@ public class Day02 : Solution
 
             if (rounds.All(IsPossible))
             {
-                t += game[0].Ints()[0];
+                t += game[0].Int();
             }
         }
 
@@ -29,11 +27,11 @@ public class Day02 : Solution
         foreach(var colour in colours)
         {
             if (colour.EndsWith("blue")) {
-                if (colour.Ints()[0] > 14) return false;
+                if (colour.Int() > 14) return false;
             } else if (colour.EndsWith("red")) {
-                if (colour.Ints()[0] > 12) return false;
+                if (colour.Int() > 12) return false;
             } else if (colour.EndsWith("green")) {
-                if (colour.Ints()[0] > 13) return false;
+                if (colour.Int() > 13) return false;
             } else
                 throw new Exception($"[{colour}]");
         }
@@ -65,11 +63,11 @@ public class Day02 : Solution
             foreach(var colour in colours)
             {
                 if (colour.EndsWith("blue")) {
-                    b = Max(b, colour.Ints()[0]);
+                    b = Max(b, colour.Int());
                 } else if (colour.EndsWith("red")) {
-                    r = Max(r, colour.Ints()[0]);
+                    r = Max(r, colour.Int());
                 } else if (colour.EndsWith("green")) {
-                    g = Max(g, colour.Ints()[0]);
+                    g = Max(g, colour.Int());
                 } else
                     throw new Exception($"[{colour}]");
             }

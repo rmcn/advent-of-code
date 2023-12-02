@@ -9,7 +9,7 @@ public class Day01 : Solution
 
         foreach(var line in input.Lines().Where(IsNotBlank))
         {
-            t += line.Ints()[0];
+            t += line.Int();
         }
 
         return t;
@@ -26,7 +26,7 @@ public class Day01 : Solution
         {
             foreach(var line in input.Lines().Where(IsNotBlank))
             {
-                t += line.Ints()[0];
+                t += line.Int();
 
                 if (seen.Contains(t))
                 {

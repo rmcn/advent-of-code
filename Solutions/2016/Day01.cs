@@ -4,7 +4,7 @@ public class Day01 : Solution
 {
     public override object One(string input)
     {
-        var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Ints()[0])).ToList();
+        var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Int())).ToList();
 
         var f = 0;
 
@@ -28,7 +28,7 @@ public class Day01 : Solution
 
     public override object Two(string input)
     {
-        var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Ints()[0])).ToList();
+        var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Int())).ToList();
 
         var f = 0;
 

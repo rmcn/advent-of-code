@@ -13,7 +13,7 @@ public class Day09 : Solution
         foreach(var line in input.Lines().Where(IsNotBlank))
         {
             var dir = line[0];
-            var dist = line.Ints()[0];
+            var dist = line.Int();
             var (dx, dy) = dir switch
             {
                 'R' => (1, 0),
@@ -74,7 +74,7 @@ public class Day09 : Solution
         foreach(var line in input.Lines().Where(IsNotBlank))
         {
             var dir = line[0];
-            var dist = line.Ints()[0];
+            var dist = line.Int();
             var (dx, dy) = dir switch
             {
                 'R' => (1, 0),

@@ -15,7 +15,7 @@ public class Day10 : Solution
                 t++;
                 p[t] = x;
                 t++;
-                x += line.Ints()[0];
+                x += line.Int();
                 p[t] = x;
             }
             else
@@ -51,7 +51,7 @@ public class Day10 : Solution
                 p[t] = x;
                 crt += Pix(p, t);
                 t++;
-                x += line.Ints()[0];
+                x += line.Int();
                 p[t] = x;
             }
             else
