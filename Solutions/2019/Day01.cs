@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year2019;
 
-public class Day01 : IDay
+public class Day01 : Solution
 {
-    public object One(string input)
+    public override object One(string input)
     {
         decimal t = 0;
 
@@ -15,7 +15,7 @@ public class Day01 : IDay
         return t.ToString();
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         decimal t = 0;
 

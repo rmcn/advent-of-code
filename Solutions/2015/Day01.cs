@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year2015;
 
-public class Day01: IDay
+public class Day01: Solution
 {
-    public object One(string input)
+    public override object One(string input)
     {
         var up = input.Count(c => c == '(');
         var down = input.Count(c => c == ')');
@@ -10,7 +10,7 @@ public class Day01: IDay
         return up - down;
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         int t = 0;
 

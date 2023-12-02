@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year0000;
 
-public class Day00 : IDay
+public class Day00 : Solution
 {
-    public object One(string input)
+    public override object One(string input)
     {
         int t = 0;
 
@@ -21,7 +21,7 @@ public class Day00 : IDay
         return t;
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         return 0;
     }

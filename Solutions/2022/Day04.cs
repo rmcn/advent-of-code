@@ -2,9 +2,9 @@
 
 namespace AdventOfCode.Year2022;
 
-class Day04 : IDay
+public class Day04 : Solution
 {
-    public object One(string input) 
+    public override object One(string input) 
     {
         var t = 0;
 
@@ -20,7 +20,7 @@ class Day04 : IDay
         return t;
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         var t = 0;
 

@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year2016;
 
-public class Day01 : IDay
+public class Day01 : Solution
 {
-    public object One(string input)
+    public override object One(string input)
     {
         var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Ints()[0])).ToList();
 
@@ -26,7 +26,7 @@ public class Day01 : IDay
         return Abs(be) + Abs(bn);
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Ints()[0])).ToList();
 

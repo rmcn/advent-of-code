@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year2022;
 
-class Day02 : IDay
+public class Day02 : Solution
 {
-    public object One(string input) => input.Lines().Where(IsNotBlank).Select(ScoreOne).Sum();
+    public override object One(string input) => input.Lines().Where(IsNotBlank).Select(ScoreOne).Sum();
 
     private static int ScoreOne(string line)
     {
@@ -23,7 +23,7 @@ class Day02 : IDay
         };
     }
 
-    public object Two(string input) => input.Lines().Where(IsNotBlank).Select(ScoreTwo).Sum();
+    public override object Two(string input) => input.Lines().Where(IsNotBlank).Select(ScoreTwo).Sum();
 
     private static int ScoreTwo(string line)
     {

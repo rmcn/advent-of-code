@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year2022;
 
-public class Day08 : IDay
+public class Day08 : Solution
 {
-    public object One(string input)
+    public override object One(string input)
     {
         int c = 0;
         var g = input.Lines().Where(IsNotBlank).Select(s => s.Trim()).ToArray();
@@ -81,7 +81,7 @@ public class Day08 : IDay
         return true;
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         int c = 0;
         var g = input.Lines().Where(IsNotBlank).Select(s => s.Trim()).ToArray();

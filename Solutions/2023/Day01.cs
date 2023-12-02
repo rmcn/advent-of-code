@@ -2,13 +2,13 @@
 
 using DigitMap = Dictionary<string, char>;
 
-public class Day01 : IDay
+public class Day01 : Solution
 {
-    public object One(string input) => input.Lines().Where(IsNotBlank).Select(CalibrationOne).Sum();
+    public override object One(string input) => input.Lines().Where(IsNotBlank).Select(CalibrationOne).Sum();
 
     int CalibrationOne(string s) => $"{FirstDigit(s)}{LastDigit(s)}".Int();
 
-    public object Two(string input) => input.Lines().Where(IsNotBlank).Select(CalibrationTwo).Sum();
+    public override object Two(string input) => input.Lines().Where(IsNotBlank).Select(CalibrationTwo).Sum();
 
     int CalibrationTwo(string s) => $"{FirstDigitOrWord(s)}{LastDigitOrWord(s)}".Int();
 

@@ -2,9 +2,9 @@
 
 namespace AdventOfCode.Year2022;
 
-public class Day09 : IDay
+public class Day09 : Solution
 {
-    public object One(string input)
+    public override object One(string input)
     {
         var h = new Point(0, 0);
         var t = new Point(0, 0);
@@ -66,7 +66,7 @@ public class Day09 : IDay
         return locs.Count;
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         var r = new Point[10];
 

@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year2022;
 
-class Day05 : IDay
+public class Day05 : Solution
 {
-    public object One(string input) 
+    public override object One(string input) 
     {
         var lines = input.Lines();
 
@@ -27,7 +27,7 @@ class Day05 : IDay
         return new string(stacks.Select(s => s.Pop()).ToArray());
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         var lines = input.Lines();
 

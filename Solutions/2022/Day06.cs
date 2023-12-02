@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year2022;
 
-class Day06 : IDay
+public class Day06 : Solution
 {
-    public object One(string input) 
+    public override object One(string input) 
     {
         int i;
         for (i = 0; i < input.Length; i++)
@@ -16,7 +16,7 @@ class Day06 : IDay
         return i + 4;
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         int i;
         for (i = 0; i < input.Length; i++)

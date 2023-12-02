@@ -3,8 +3,8 @@ using AdventOfCode;
 
 var days = Assembly.GetExecutingAssembly()
     .GetTypes()
-    .Where(t => typeof(IDay).IsAssignableFrom(t) && t.IsClass)
-    .Select(t => (IDay)Activator.CreateInstance(t)!)
+    .Where(t => typeof(Solution).IsAssignableFrom(t) && t != typeof(Solution))
+    .Select(t => (Solution)Activator.CreateInstance(t)!)
     .OrderBy(d => d.Year)
     .ThenBy(d => d.Day)
     .ToList();

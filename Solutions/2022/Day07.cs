@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year2022;
 
-public class Day07 : IDay
+public class Day07 : Solution
 {
-    public object One(string input)
+    public override object One(string input)
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();
@@ -37,7 +37,7 @@ public class Day07 : IDay
         return a;
     }
 
-    public object Two(string input)
+    public override object Two(string input)
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();

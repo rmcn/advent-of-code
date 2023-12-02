@@ -10,24 +10,24 @@ static class Advent
 
     private static string CacheDir => Environment.GetEnvironmentVariable("AOC_CACHE_DIR") ?? "";
 
-    private static string PathFor(IDay day, string type)
+    private static string PathFor(Solution solution, string type)
     {
-        var dir = Path.Combine(CacheDir, $"{day.Year}", $"{day.Day:00}");
+        var dir = Path.Combine(CacheDir, $"{solution.Year}", $"{solution.Day:00}");
         Directory.CreateDirectory(dir);
-        return Path.Combine(dir, $"{day.Day:00}-{type}.txt");
+        return Path.Combine(dir, $"{solution.Day:00}-{type}.txt");
     }
 
     private static string Cookie() => File.ReadAllText(Path.Combine(CacheDir, "Cookie.txt"));
 
-    static string InputFor(IDay day)
+    static string InputFor(Solution solution)
     {
-        var path = PathFor(day, "Input");
+        var path = PathFor(solution, "Input");
         if (File.Exists(path))
         {
             return File.ReadAllText(path);
         }
 
-        var request = new HttpRequestMessage(HttpMethod.Get, $"{day.Year}/day/{day.Day}/input");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"{solution.Year}/day/{solution.Day}/input");
         request.Headers.Add("Cookie", Cookie());
 
         var result = Client.Send(request);
@@ -39,16 +39,16 @@ static class Advent
         return input;
     }
 
-    static string QuestionFor(IDay day)
+    static string QuestionFor(Solution solution)
     {
-        var path = PathFor(day, "Question");
+        var path = PathFor(solution, "Question");
 
         if (File.Exists(path))
         {
             return File.ReadAllText(path);
         }
 
-        var request = new HttpRequestMessage(HttpMethod.Get, $"{day.Year}/day/{day.Day}");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"{solution.Year}/day/{solution.Day}");
         request.Headers.Add("Cookie", Cookie());
 
         var result = Client.Send(request);
@@ -85,14 +85,14 @@ static class Advent
         return example;
     }
 
-    static void Submit(IDay day, int level, object answer)
+    static void Submit(Solution solution, int level, object answer)
     {
-        var path = PathFor(day, $"{level}-Solution");
+        var path = PathFor(solution, $"{level}-Solution");
         var submitted = File.Exists(path) && File.ReadAllText(path) == answer.ToString();
 
         var submit = answer is SubmitAnswer;
         var action = !submit ? "View" : submitted ? "Submitted" : "Submitting";
-        Console.WriteLine($"{action} {day.Year} {day.Day} {level}: {answer}");
+        Console.WriteLine($"{action} {solution.Year} {solution.Day} {level}: {answer}");
 
         if (!submit || submitted)
         {
@@ -108,7 +108,7 @@ static class Advent
         };
 
 
-        var request = new HttpRequestMessage(HttpMethod.Post, $"{day.Year}/day/{day.Day}/answer")
+        var request = new HttpRequestMessage(HttpMethod.Post, $"{solution.Year}/day/{solution.Day}/answer")
         {
             Content = new FormUrlEncodedContent(nvc)
         };
@@ -124,22 +124,22 @@ static class Advent
         Console.WriteLine(article);
     }
 
-    public static void Run(IDay day)
+    public static void Run(Solution solution)
     {
-        Console.WriteLine($"Running {day.Year} {day.Day}");
+        Console.WriteLine($"Running {solution.Year} {solution.Day}");
 
-        var question = QuestionFor(day);
+        var question = QuestionFor(solution);
 
         var example = Example(question);
         if (example != "")
         {
-            Console.WriteLine($"Example 1: {day.One(example)}");
-            Console.WriteLine($"Example 2: {day.Two(example)}");
+            Console.WriteLine($"Example 1: {solution.One(example)}");
+            Console.WriteLine($"Example 2: {solution.Two(example)}");
         }
 
-        var input = InputFor(day);
+        var input = InputFor(solution);
 
-        Submit(day, 1, day.One(input));
-        Submit(day, 2, day.Two(input));
+        Submit(solution, 1, solution.One(input));
+        Submit(solution, 2, solution.Two(input));
     }
 }
