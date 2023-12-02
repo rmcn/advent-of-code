@@ -133,8 +133,10 @@ static class Advent
         var example = Example(question);
         if (example != "")
         {
+            solution.LogEx = Console.WriteLine;
             Console.WriteLine($"Example 1: {solution.One(example)}");
             Console.WriteLine($"Example 2: {solution.Two(example)}");
+            solution.LogEx = (string _) => {};
         }
 
         var input = InputFor(solution);
