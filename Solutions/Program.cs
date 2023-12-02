@@ -1,14 +1,16 @@
 ﻿using System.Reflection;
 using AdventOfCode;
 
-var days = Assembly.GetExecutingAssembly()
+var solutions = Assembly.GetExecutingAssembly()
     .GetTypes()
     .Where(t => typeof(Solution).IsAssignableFrom(t) && t != typeof(Solution))
     .Select(t => (Solution)Activator.CreateInstance(t)!)
-    .OrderBy(d => d.Year)
-    .ThenBy(d => d.Day)
+    .Where(s => s.Year != 0)
+    .OrderBy(s => s.Year)
+    .ThenBy(s => s.Day)
     .ToList();
 
-var current = days.Last();
 
-Advent.Run(current);
+//solutions.ForEach(s => Advent.Run(s));
+//Advent.Run(solutions.Single(s => s.Year == 2022 && s.Day == 6));
+Advent.Run(solutions.Last());

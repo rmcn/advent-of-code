@@ -31,7 +31,7 @@ public class Day10 : Solution
             + p[140] * 140
             + p[180] * 180
             + p[220] * 220;
-        return (false, a.ToString());
+        return a;
 
     }
 
@@ -61,7 +61,7 @@ public class Day10 : Solution
                 p[t] = x;
             }
         }
-        return (false, crt);
+        return crt;
     }
 
     string Pix(int[] p, int t)

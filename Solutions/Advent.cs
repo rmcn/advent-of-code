@@ -66,14 +66,21 @@ static class Advent
         var candidate = question.Lines()
             .SkipWhile(l => !(l.StartsWith("<p>") && l.ToLower().Contains("for example")))
             .Skip(1)
-            .TakeWhile(l => l != "</code></pre>")
+            .TakeUntil(l => l.EndsWith("</code></pre>"))
             .ToList();
 
         var example = "";
 
         if ((candidate.FirstOrDefault() ?? "").StartsWith("<pre><code>"))
         {
-            example = string.Join('\n', candidate).Substring(11);
+            int iLast = candidate.Count - 1;
+            if (candidate[iLast].EndsWith("</code></pre>"))
+                candidate[iLast] = candidate[iLast][..^13];
+
+            if (candidate[iLast] == string.Empty)
+                candidate.RemoveAt(iLast);
+
+            example = string.Join('\n', candidate)[11..];
 
             Console.WriteLine($"Found example:\n{example}");
         }
