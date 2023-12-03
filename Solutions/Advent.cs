@@ -61,10 +61,16 @@ static class Advent
         return question;
     }
 
-    static string Example(string question)
+    static string Example(Solution solution, string question)
     {
+        if (solution.Example != string.Empty)
+        {
+            Console.WriteLine($"Solution example:\n{solution.Example}");
+            return solution.Example;
+        }
+
         var candidate = question.Lines()
-            .SkipWhile(l => !(l.StartsWith("<p>") && l.ToLower().Contains("for example")))
+            .SkipWhile(l => !(l.StartsWith("<p>") && l.ToLower().Contains("example")))
             .Skip(1)
             .TakeUntil(l => l.EndsWith("</code></pre>"))
             .ToList();
@@ -137,7 +143,7 @@ static class Advent
 
         var question = QuestionFor(solution);
 
-        var example = Example(question);
+        var example = Example(solution, question);
         if (example != "")
         {
             solution.LogEx = Console.WriteLine;

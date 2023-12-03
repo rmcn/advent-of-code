@@ -2,6 +2,8 @@
 
 public class Day00 : Solution
 {
+    public override string Example => @"";
+
     public override object One(string input)
     {
         int t = 0;

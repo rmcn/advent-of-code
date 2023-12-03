@@ -2,6 +2,8 @@
 
 public class Day01: Solution
 {
+    public override string Example => ")())())";
+
     public override object One(string input)
     {
         var up = input.Count(c => c == '(');

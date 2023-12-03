@@ -8,6 +8,8 @@ public abstract class Solution
     public abstract object One(string input);
     public abstract object Two(string input);
 
+    public virtual string Example => string.Empty;
+
     /// <summary>Log a message on all runs.</summary>
     public void Log(string message) => Console.WriteLine(message);
     /// <summary>Log a message but only on example runs.</summary>
