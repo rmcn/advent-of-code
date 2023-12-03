@@ -10,7 +10,7 @@ public class Day00 : Solution
 
         var k = input.Lines().Where(IsNotBlank).Select((s, i) => s);
 
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
         }
 

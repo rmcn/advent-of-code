@@ -8,7 +8,7 @@ public class Day10 : Solution
         int t = 1;
         var p = new int[1000];
         p[t] = 1;
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             if (line.StartsWith("addx "))
             {
@@ -42,7 +42,7 @@ public class Day10 : Solution
         var p = new int[1000];
         p[t] = 1;
         var crt = "\n";
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             if (line.StartsWith("addx "))
             {
@@ -66,6 +66,6 @@ public class Day10 : Solution
 
     string Pix(int[] p, int t)
     {
-        return (Abs(p[t] - (t-1)%40) <= 1 ? "#" : ".") + (t%40 == 0 ? "\n" : "");
+        return (Abs(p[t] - (t - 1) % 40) <= 1 ? "#" : ".") + (t % 40 == 0 ? "\n" : "");
     }
 }

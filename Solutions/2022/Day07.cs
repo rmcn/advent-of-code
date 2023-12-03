@@ -6,7 +6,7 @@ public class Day07 : Solution
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             if (line == "$ cd ..")
             {
@@ -25,7 +25,7 @@ public class Day07 : Solution
         }
 
         var a = 0;
-        foreach(var d in sizes.Keys)
+        foreach (var d in sizes.Keys)
         {
             var t = sizes.Keys.Where(k => k.StartsWith(d)).Select(k => sizes[k]).Sum();
             if (t <= 100000)
@@ -41,7 +41,7 @@ public class Day07 : Solution
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             if (line == "$ cd ..")
             {
@@ -61,7 +61,7 @@ public class Day07 : Solution
 
         var totals = new Dictionary<string, int>();
 
-        foreach(var d in sizes.Keys)
+        foreach (var d in sizes.Keys)
         {
             var dt = sizes.Keys.Where(k => k.StartsWith(d)).Select(k => sizes[k]).Sum();
             totals.Add(d, dt);

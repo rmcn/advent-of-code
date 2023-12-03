@@ -11,7 +11,7 @@ public class Day01 : Solution
         var bn = 0;
         var be = 0;
 
-        foreach(var (t, d) in instructions)
+        foreach (var (t, d) in instructions)
         {
             if (t == 'L') f--;
             if (t == 'R') f++;
@@ -38,7 +38,7 @@ public class Day01 : Solution
         var seen = new List<string>();
 
         seen.Add($"{bn},{be}");
-        foreach(var (t, d) in instructions)
+        foreach (var (t, d) in instructions)
         {
             if (t == 'L') f--;
             if (t == 'R') f++;
@@ -46,7 +46,7 @@ public class Day01 : Solution
 
             if (f % 4 == 0)
             {
-                for(var i = 0; i < d; i++)
+                for (var i = 0; i < d; i++)
                 {
                     bn++;
                     if (seen.Contains($"{bn},{be}"))
@@ -57,7 +57,7 @@ public class Day01 : Solution
 
             if (f % 4 == 1)
             {
-                for(var i = 0; i < d; i++)
+                for (var i = 0; i < d; i++)
                 {
                     be++;
                     if (seen.Contains($"{bn},{be}"))
@@ -68,7 +68,7 @@ public class Day01 : Solution
 
             if (f % 4 == 2)
             {
-                for(var i = 0; i < d; i++)
+                for (var i = 0; i < d; i++)
                 {
                     bn--;
                     if (seen.Contains($"{bn},{be}"))
@@ -79,7 +79,7 @@ public class Day01 : Solution
 
             if (f % 4 == 3)
             {
-                for(var i = 0; i < d; i++)
+                for (var i = 0; i < d; i++)
                 {
                     be--;
                     if (seen.Contains($"{bn},{be}"))

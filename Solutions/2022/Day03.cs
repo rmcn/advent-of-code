@@ -2,11 +2,11 @@
 
 public class Day03 : Solution
 {
-    public override object One(string input) 
+    public override object One(string input)
     {
         var t = 0;
 
-        foreach (var line in  input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             var a = line.Substring(0, line.Length / 2);
             var b = line.Substring(line.Length / 2, line.Length / 2);

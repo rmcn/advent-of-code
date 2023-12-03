@@ -19,13 +19,13 @@ public class Day03 : Solution
             for (int x = 1; x < grid[y].Length - 1; x++)
             {
                 var startX = x;
-                while(char.IsDigit(grid[y][x]))
+                while (char.IsDigit(grid[y][x]))
                     x++;
-                
+
                 if (startX != x)
                 {
                     var num = grid[y][startX..x];
-                    if(IsNextToSymbol(grid, y, startX, x))
+                    if (IsNextToSymbol(grid, y, startX, x))
                     {
                         t += num.Int();
                     }
@@ -38,18 +38,18 @@ public class Day03 : Solution
 
     private bool IsNextToSymbol(string[] grid, int y, int startX, int endX)
     {
-        if(IsSymbol(grid[y][startX-1]))
+        if (IsSymbol(grid[y][startX - 1]))
             return true;
 
-        if(IsSymbol(grid[y][endX]))
+        if (IsSymbol(grid[y][endX]))
             return true;
 
-        for(int x = startX-1; x <= endX; x++)
+        for (int x = startX - 1; x <= endX; x++)
         {
-            if(IsSymbol(grid[y-1][x]))
+            if (IsSymbol(grid[y - 1][x]))
                 return true;
 
-            if(IsSymbol(grid[y+1][x]))
+            if (IsSymbol(grid[y + 1][x]))
                 return true;
         }
 
@@ -74,16 +74,16 @@ public class Day03 : Solution
             for (int x = 1; x < grid[y].Length - 1; x++)
             {
                 var startX = x;
-                while(char.IsDigit(grid[y][x]))
+                while (char.IsDigit(grid[y][x]))
                     x++;
-                
+
                 if (startX != x)
                 {
                     var num = grid[y][startX..x];
 
                     var gears = FindGearsFor(grid, y, startX, x);
 
-                    foreach(var gear in gears)
+                    foreach (var gear in gears)
                     {
                         gearParts.Add((gear, num.Int()));
                     }
@@ -102,19 +102,19 @@ public class Day03 : Solution
     private List<string> FindGearsFor(string[] grid, int y, int startX, int endX)
     {
         var gears = new List<string>();
-        if(IsSymbol(grid[y][startX-1]))
-            gears.Add($"{y},{startX-1}");
+        if (IsSymbol(grid[y][startX - 1]))
+            gears.Add($"{y},{startX - 1}");
 
-        if(IsSymbol(grid[y][endX]))
+        if (IsSymbol(grid[y][endX]))
             gears.Add($"{y},{endX}");
 
-        for(int x = startX-1; x <= endX; x++)
+        for (int x = startX - 1; x <= endX; x++)
         {
-            if(IsSymbol(grid[y-1][x]))
-                gears.Add($"{y-1},{x}");
+            if (IsSymbol(grid[y - 1][x]))
+                gears.Add($"{y - 1},{x}");
 
-            if(IsSymbol(grid[y+1][x]))
-                gears.Add($"{y+1},{x}");
+            if (IsSymbol(grid[y + 1][x]))
+                gears.Add($"{y + 1},{x}");
         }
 
         return gears;

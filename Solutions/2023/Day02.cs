@@ -7,7 +7,7 @@ public class Day02 : Solution
     {
         int t = 0;
 
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             var game = line.Split(":");
             var rounds = game[1].Split(";");
@@ -24,15 +24,21 @@ public class Day02 : Solution
     private bool IsPossible(string round)
     {
         var colours = round.Split(",");
-        foreach(var colour in colours)
+        foreach (var colour in colours)
         {
-            if (colour.EndsWith("blue")) {
+            if (colour.EndsWith("blue"))
+            {
                 if (colour.Int() > 14) return false;
-            } else if (colour.EndsWith("red")) {
+            }
+            else if (colour.EndsWith("red"))
+            {
                 if (colour.Int() > 12) return false;
-            } else if (colour.EndsWith("green")) {
+            }
+            else if (colour.EndsWith("green"))
+            {
                 if (colour.Int() > 13) return false;
-            } else
+            }
+            else
                 throw new Exception($"[{colour}]");
         }
         return true;
@@ -42,7 +48,7 @@ public class Day02 : Solution
     {
         int t = 0;
 
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             var game = line.Split(":");
             var rounds = game[1].Split(";");
@@ -57,18 +63,24 @@ public class Day02 : Solution
         var r = 0;
         var g = 0;
         var b = 0;
-        foreach(var round in rounds)
+        foreach (var round in rounds)
         {
             var colours = round.Split(",");
-            foreach(var colour in colours)
+            foreach (var colour in colours)
             {
-                if (colour.EndsWith("blue")) {
+                if (colour.EndsWith("blue"))
+                {
                     b = Max(b, colour.Int());
-                } else if (colour.EndsWith("red")) {
+                }
+                else if (colour.EndsWith("red"))
+                {
                     r = Max(r, colour.Int());
-                } else if (colour.EndsWith("green")) {
+                }
+                else if (colour.EndsWith("green"))
+                {
                     g = Max(g, colour.Int());
-                } else
+                }
+                else
                     throw new Exception($"[{colour}]");
             }
         }

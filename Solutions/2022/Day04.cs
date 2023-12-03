@@ -4,7 +4,7 @@ namespace AdventOfCode.Year2022;
 
 public class Day04 : Solution
 {
-    public override object One(string input) 
+    public override object One(string input)
     {
         var t = 0;
 

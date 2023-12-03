@@ -10,7 +10,7 @@ public class Day09 : Solution
         var t = new Point(0, 0);
 
         var locs = new HashSet<string>();
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             var dir = line[0];
             var dist = line.Int();
@@ -23,7 +23,7 @@ public class Day09 : Solution
                 _ => throw new Exception()
             };
 
-            for(int i = 0; i < dist; i++)
+            for (int i = 0; i < dist; i++)
             {
                 h.X += dx;
                 h.Y += dy;
@@ -71,7 +71,7 @@ public class Day09 : Solution
         var r = new Point[10];
 
         var locs = new HashSet<string>();
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             var dir = line[0];
             var dist = line.Int();
@@ -84,12 +84,12 @@ public class Day09 : Solution
                 _ => throw new Exception()
             };
 
-            for(int i = 0; i < dist; i++)
+            for (int i = 0; i < dist; i++)
             {
                 r[0].X += dx;
                 r[0].Y += dy;
 
-                for(int h = 0; h < r.Length-1; h++)
+                for (int h = 0; h < r.Length - 1; h++)
                 {
                     int t = h + 1;
                     var mx = r[h].X - r[t].X;

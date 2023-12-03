@@ -149,7 +149,7 @@ static class Advent
             solution.LogEx = Console.WriteLine;
             Console.WriteLine($"Example 1: {solution.One(example)}");
             Console.WriteLine($"Example 2: {solution.Two(example)}");
-            solution.LogEx = (string _) => {};
+            solution.LogEx = (string _) => { };
         }
 
         var input = InputFor(solution);

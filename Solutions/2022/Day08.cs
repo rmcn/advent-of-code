@@ -11,12 +11,12 @@ public class Day08 : Solution
         {
             for (int y = 0; y < g[x].Length; y++)
             {
-                if(isVis(x, y, g))
+                if (isVis(x, y, g))
                 {
                     c++;
                 }
             }
-            
+
         }
 
         return c;
@@ -24,7 +24,7 @@ public class Day08 : Solution
 
     private bool isVis(int x, int y, string[] g)
     {
-        return isVisL(x, y, g) || isVisR(x, y, g)  || isVisT(x, y, g)  || isVisB(x, y, g);
+        return isVisL(x, y, g) || isVisR(x, y, g) || isVisT(x, y, g) || isVisB(x, y, g);
     }
 
     private bool isVisL(int x, int y, string[] g)
@@ -32,7 +32,7 @@ public class Day08 : Solution
         var h = g[x][y];
         if (x == 0)
             return true;
-        while(--x >= 0)
+        while (--x >= 0)
         {
             if (g[x][y] >= h)
                 return false;
@@ -40,13 +40,13 @@ public class Day08 : Solution
         return true;
     }
 
-    
+
     private bool isVisT(int x, int y, string[] g)
     {
         var h = g[x][y];
         if (y == 0)
             return true;
-        while(--y >= 0)
+        while (--y >= 0)
         {
             if (g[x][y] >= h)
                 return false;
@@ -59,7 +59,7 @@ public class Day08 : Solution
         var h = g[x][y];
         if (x == g.Length - 1)
             return true;
-        while(++x <= g.Length - 1)
+        while (++x <= g.Length - 1)
         {
             if (g[x][y] >= h)
                 return false;
@@ -73,7 +73,7 @@ public class Day08 : Solution
         var h = g[x][y];
         if (y == g[x].Length - 1)
             return true;
-        while(++y <= g[x].Length - 1)
+        while (++y <= g[x].Length - 1)
         {
             if (g[x][y] >= h)
                 return false;
@@ -102,7 +102,7 @@ public class Day08 : Solution
     {
         var d = 0;
         var h = g[x][y];
-        while(--x >= 0 && g[x][y] < h)
+        while (--x >= 0 && g[x][y] < h)
         {
             d++;
         }
@@ -113,7 +113,7 @@ public class Day08 : Solution
     {
         var d = 0;
         var h = g[x][y];
-        while(++x <= g.Length - 1 && g[x][y] < h)
+        while (++x <= g.Length - 1 && g[x][y] < h)
         {
             d++;
         }
@@ -125,7 +125,7 @@ public class Day08 : Solution
     {
         var d = 0;
         var h = g[x][y];
-        while(--y >= 0 && g[x][y] < h)
+        while (--y >= 0 && g[x][y] < h)
         {
             d++;
         }
@@ -136,7 +136,7 @@ public class Day08 : Solution
     {
         var d = 0;
         var h = g[x][y];
-        while(++y <= g[x].Length - 1 && g[x][y] < h)
+        while (++y <= g[x].Length - 1 && g[x][y] < h)
         {
             d++;
         }

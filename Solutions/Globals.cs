@@ -10,7 +10,7 @@ namespace AdventOfCode
         public static bool IsNotBlank(string s) => !IsBlank(s);
         public static int Int(string s) => int.Parse(s);
         public static Dictionary<TKey, TValue> Merge<TKey, TValue>(params IDictionary<TKey, TValue>[] dicts)
-            where TKey: notnull
+            where TKey : notnull
         {
             var result = new Dictionary<TKey, TValue>();
 

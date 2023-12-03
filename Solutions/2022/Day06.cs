@@ -2,7 +2,7 @@
 
 public class Day06 : Solution
 {
-    public override object One(string input) 
+    public override object One(string input)
     {
         int i;
         for (i = 0; i < input.Length; i++)

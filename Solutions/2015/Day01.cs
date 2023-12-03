@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Year2015;
 
-public class Day01: Solution
+public class Day01 : Solution
 {
     public override string Example => ")())())";
 

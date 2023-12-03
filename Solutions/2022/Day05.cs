@@ -2,7 +2,7 @@
 
 public class Day05 : Solution
 {
-    public override object One(string input) 
+    public override object One(string input)
     {
         var lines = input.Lines();
 
@@ -20,7 +20,7 @@ public class Day05 : Solution
             var nums = i.Ints();
             for (int n = 0; n < nums[0]; n++)
             {
-                stacks[nums[2] - 1].Push(stacks[nums[1] - 1].Pop());    
+                stacks[nums[2] - 1].Push(stacks[nums[1] - 1].Pop());
             }
         }
 
@@ -46,11 +46,11 @@ public class Day05 : Solution
             var s = new Stack<char>();
             for (int n = 0; n < nums[0]; n++)
             {
-                s.Push(stacks[nums[1] - 1].Pop());    
+                s.Push(stacks[nums[1] - 1].Pop());
             }
             for (int n = 0; n < nums[0]; n++)
             {
-                stacks[nums[2] - 1].Push(s.Pop());    
+                stacks[nums[2] - 1].Push(s.Pop());
             }
         }
 

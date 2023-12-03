@@ -7,7 +7,7 @@ public class Day01 : Solution
         int t = 0;
 
 
-        foreach(var line in input.Lines().Where(IsNotBlank))
+        foreach (var line in input.Lines().Where(IsNotBlank))
         {
             t += line.Int();
         }
@@ -22,9 +22,9 @@ public class Day01 : Solution
         var seen = new List<int>();
         seen.Add(t);
 
-        while(true)
+        while (true)
         {
-            foreach(var line in input.Lines().Where(IsNotBlank))
+            foreach (var line in input.Lines().Where(IsNotBlank))
             {
                 t += line.Int();
 

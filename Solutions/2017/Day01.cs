@@ -25,7 +25,7 @@ public class Day01 : Solution
 
         for (int i = 0; i < s.Length; i++)
         {
-            var n = (i + s.Length/2) % s.Length;
+            var n = (i + s.Length / 2) % s.Length;
 
             if (s[i] == s[n])
                 t += s[i].ToString().Int();
