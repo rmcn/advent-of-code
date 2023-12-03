@@ -1,4 +1,6 @@
 ﻿
+using System.Formats.Tar;
+
 namespace AdventOfCode.Year2023;
 
 public class Day03 : Solution
@@ -67,7 +69,7 @@ public class Day03 : Solution
 
         var grid = lines.ToArray();
 
-        var gearParts = new List<(string g, int num)>();
+        var gearParts = new List<(string location, int num)>();
 
         for (int y = 1; y < grid.Length - 1; y++)
         {
@@ -81,20 +83,20 @@ public class Day03 : Solution
                 {
                     var num = grid[y][startX..x];
 
-                    var gears = FindGearsFor(grid, y, startX, x);
+                    var gearsLocations = FindGearsFor(grid, y, startX, x);
 
-                    foreach (var gear in gears)
+                    foreach (var location in gearsLocations)
                     {
-                        gearParts.Add((gear, num.Int()));
+                        gearParts.Add((location, num.Int()));
                     }
                 }
             }
         }
 
         return gearParts
-            .GroupBy(gp => gp.g)
+            .GroupBy(gp => gp.location)
             .Where(gpg => gpg.Count() == 2)
-            .Select(gpg => gpg.ToList()[0].num * gpg.ToList()[1].num)
+            .Select(gpg => gpg.Select(g => g.num).Product())
             .Sum();
     }
 

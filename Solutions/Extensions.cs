@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Numerics;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode;
 
@@ -11,4 +12,6 @@ public static class Extensions
     public static bool IsBlank(this string s) => string.IsNullOrWhiteSpace(s);
     public static bool IsNotBlank(this string s) => !s.IsBlank();
     public static SubmitAnswer Submit(this object v) => new(v);
+    public static T Product<T>(this IEnumerable<T> values) where T : INumber<T>
+        => values.Aggregate(T.One, (a, b) => a * b);
 }
