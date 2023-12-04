@@ -1,6 +1,4 @@
 ﻿
-using System.Formats.Tar;
-
 namespace AdventOfCode.Year2023;
 
 public class Day03 : Solution
@@ -9,12 +7,7 @@ public class Day03 : Solution
     {
         int t = 0;
 
-        var lines = input.Lines().Where(IsNotBlank).Select(s => $".{s}.").ToList();
-
-        lines.Insert(0, new string('.', lines[0].Length));
-        lines.Add(new string('.', lines[0].Length));
-
-        var grid = lines.ToArray();
+        string[] grid = ParseGrid(input);
 
         for (int y = 1; y < grid.Length - 1; y++)
         {
@@ -26,10 +19,10 @@ public class Day03 : Solution
 
                 if (startX != x)
                 {
-                    var num = grid[y][startX..x];
-                    if (IsNextToSymbol(grid, y, startX, x))
+                    var partNumber = grid[y][startX..x].Int();
+                    if (FindAround(grid, y, startX, endX: x, IsSymbol).Any())
                     {
-                        t += num.Int();
+                        t += partNumber;
                     }
                 }
             }
@@ -38,38 +31,46 @@ public class Day03 : Solution
         return t;
     }
 
-    private bool IsNextToSymbol(string[] grid, int y, int startX, int endX)
+    string[] ParseGrid(string input)
     {
-        if (IsSymbol(grid[y][startX - 1]))
-            return true;
+        var rows = input.Lines().Where(IsNotBlank).Select(s => $".{s}.").ToList();
 
-        if (IsSymbol(grid[y][endX]))
-            return true;
+        var blankRow = new string('.', rows[0].Length);
+        rows.Insert(0, blankRow);
+        rows.Add(blankRow);
 
-        for (int x = startX - 1; x <= endX; x++)
-        {
-            if (IsSymbol(grid[y - 1][x]))
-                return true;
-
-            if (IsSymbol(grid[y + 1][x]))
-                return true;
-        }
-
-        return false;
+        return rows.ToArray();
     }
 
     bool IsSymbol(char c) => c != '.' && !char.IsDigit(c);
+    bool IsGear(char c) => c == '*';
+
+    private List<string> FindAround(string[] grid, int y, int startX, int endX, Func<char, bool> isMatch)
+    {
+        var gears = new List<string>();
+        if (isMatch(grid[y][startX - 1]))
+            gears.Add($"{y},{startX - 1}");
+
+        if (isMatch(grid[y][endX]))
+            gears.Add($"{y},{endX}");
+
+        for (int x = startX - 1; x <= endX; x++)
+        {
+            if (isMatch(grid[y - 1][x]))
+                gears.Add($"{y - 1},{x}");
+
+            if (isMatch(grid[y + 1][x]))
+                gears.Add($"{y + 1},{x}");
+        }
+
+        return gears;
+    }
 
     public override object Two(string input)
     {
-        var lines = input.Lines().Where(IsNotBlank).Select(s => $".{s}.").ToList();
+        string[] grid = ParseGrid(input);
 
-        lines.Insert(0, new string('.', lines[0].Length));
-        lines.Add(new string('.', lines[0].Length));
-
-        var grid = lines.ToArray();
-
-        var gearParts = new List<(string location, int num)>();
+        var gearCandidates = new List<(string location, int partNumber)>();
 
         for (int y = 1; y < grid.Length - 1; y++)
         {
@@ -81,45 +82,22 @@ public class Day03 : Solution
 
                 if (startX != x)
                 {
-                    var num = grid[y][startX..x];
+                    var partNumber = grid[y][startX..x].Int();
 
-                    var gearsLocations = FindGearsFor(grid, y, startX, x);
+                    var gearLocations = FindAround(grid, y, startX, endX: x, IsGear);
 
-                    foreach (var location in gearsLocations)
+                    foreach (var location in gearLocations)
                     {
-                        gearParts.Add((location, num.Int()));
+                        gearCandidates.Add((location, partNumber));
                     }
                 }
             }
         }
 
-        return gearParts
-            .GroupBy(gp => gp.location)
-            .Where(gpg => gpg.Count() == 2)
-            .Select(gpg => gpg.Select(g => g.num).Product())
+        return gearCandidates
+            .GroupBy(gc => gc.location)
+            .Where(g => g.Count() == 2)
+            .Select(g => g.Select(g => g.partNumber).Product())
             .Sum();
     }
-
-
-    private List<string> FindGearsFor(string[] grid, int y, int startX, int endX)
-    {
-        var gears = new List<string>();
-        if (IsSymbol(grid[y][startX - 1]))
-            gears.Add($"{y},{startX - 1}");
-
-        if (IsSymbol(grid[y][endX]))
-            gears.Add($"{y},{endX}");
-
-        for (int x = startX - 1; x <= endX; x++)
-        {
-            if (IsSymbol(grid[y - 1][x]))
-                gears.Add($"{y - 1},{x}");
-
-            if (IsSymbol(grid[y + 1][x]))
-                gears.Add($"{y + 1},{x}");
-        }
-
-        return gears;
-    }
-
 }

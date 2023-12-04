@@ -2,18 +2,16 @@
 
 public class Day04 : Solution
 {
-    public override string Example => @"";
-
     public override object One(string input)
         => input
             .Lines()
             .Where(IsNotBlank)
-            .Select(c => ParseCard(c))
+            .Select(ParseCard)
             .Sum(c => (int)Pow(2, c.MatchCount - 1));
 
     public override object Two(string input)
     {
-        var cards = input.Lines().Where(IsNotBlank).Select(c => ParseCard(c)).ToList();
+        var cards = input.Lines().Where(IsNotBlank).Select(ParseCard).ToList();
 
         var t = cards.Count;
 
@@ -44,8 +42,8 @@ public class Day04 : Solution
 
         return new Card
         (
-            card.Ints()[0],
-            have.Intersect(winners).Count()
+            Number: card.Ints()[0],
+            MatchCount: have.Intersect(winners).Count()
         );
     }
 }
