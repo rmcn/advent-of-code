@@ -2,7 +2,7 @@
 
 public class Day06 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         int i;
         for (i = 0; i < input.Length; i++)
@@ -16,7 +16,7 @@ public class Day06 : Solution
         return i + 4;
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         int i;
         for (i = 0; i < input.Length; i++)

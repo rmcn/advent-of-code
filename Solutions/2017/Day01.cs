@@ -2,7 +2,7 @@
 
 public class Day01 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         int t = 0;
         var s = input.Trim();
@@ -18,7 +18,7 @@ public class Day01 : Solution
         return t;
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         int t = 0;
         var s = input.Trim();

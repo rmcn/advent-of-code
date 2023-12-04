@@ -2,7 +2,7 @@
 
 public class Day10 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         int x = 1;
         int t = 1;
@@ -35,7 +35,7 @@ public class Day10 : Solution
 
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         int x = 1;
         int t = 1;

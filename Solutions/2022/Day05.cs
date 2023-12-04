@@ -2,7 +2,7 @@
 
 public class Day05 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         var lines = input.Lines();
 
@@ -27,7 +27,7 @@ public class Day05 : Solution
         return new string(stacks.Select(s => s.Pop()).ToArray());
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         var lines = input.Lines();
 

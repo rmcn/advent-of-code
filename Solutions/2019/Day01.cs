@@ -2,7 +2,7 @@
 
 public class Day01 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         decimal t = 0;
 
@@ -15,7 +15,7 @@ public class Day01 : Solution
         return t.ToString();
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         decimal t = 0;
 

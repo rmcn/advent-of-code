@@ -2,9 +2,9 @@ namespace AdventOfCode.Year2022;
 
 public class Day01 : Solution
 {
-    public override object One(string input) => Totals(input).OrderByDescending(c => c).First();
+    public override Answer One(string input) => Totals(input).OrderByDescending(c => c).First();
 
-    public override object Two(string input) => Totals(input).OrderByDescending(c => c).Take(3).Sum();
+    public override Answer Two(string input) => Totals(input).OrderByDescending(c => c).Take(3).Sum();
 
     private static List<int> Totals(string input) =>
         input

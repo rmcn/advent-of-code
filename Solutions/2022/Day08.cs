@@ -2,7 +2,7 @@
 
 public class Day08 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         int c = 0;
         var g = input.Lines().Where(IsNotBlank).Select(s => s.Trim()).ToArray();
@@ -81,7 +81,7 @@ public class Day08 : Solution
         return true;
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         int c = 0;
         var g = input.Lines().Where(IsNotBlank).Select(s => s.Trim()).ToArray();

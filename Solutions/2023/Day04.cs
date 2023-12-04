@@ -2,14 +2,14 @@
 
 public class Day04 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
         => input
             .Lines()
             .Where(IsNotBlank)
             .Select(ParseCard)
             .Sum(c => (int)Pow(2, c.MatchCount - 1));
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         var cards = input.Lines().Where(IsNotBlank).Select(ParseCard).ToList();
 

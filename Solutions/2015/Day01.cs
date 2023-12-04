@@ -4,7 +4,7 @@ public class Day01 : Solution
 {
     public override string Example => ")())())";
 
-    public override object One(string input)
+    public override Answer One(string input)
     {
         var up = input.Count(c => c == '(');
         var down = input.Count(c => c == ')');
@@ -12,7 +12,7 @@ public class Day01 : Solution
         return up - down;
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         int t = 0;
 

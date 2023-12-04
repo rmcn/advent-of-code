@@ -4,7 +4,7 @@ public class Day00 : Solution
 {
     public override string Example => @"";
 
-    public override object One(string input)
+    public override Answer One(string input)
     {
         int t = 0;
 
@@ -23,7 +23,7 @@ public class Day00 : Solution
         return t;
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         return 0;
     }

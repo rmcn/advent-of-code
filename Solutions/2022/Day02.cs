@@ -2,7 +2,7 @@
 
 public class Day02 : Solution
 {
-    public override object One(string input) => input.Lines().Where(IsNotBlank).Select(ScoreOne).Sum();
+    public override Answer One(string input) => input.Lines().Where(IsNotBlank).Select(ScoreOne).Sum();
 
     private static int ScoreOne(string line)
     {
@@ -23,7 +23,7 @@ public class Day02 : Solution
         };
     }
 
-    public override object Two(string input) => input.Lines().Where(IsNotBlank).Select(ScoreTwo).Sum();
+    public override Answer Two(string input) => input.Lines().Where(IsNotBlank).Select(ScoreTwo).Sum();
 
     private static int ScoreTwo(string line)
     {

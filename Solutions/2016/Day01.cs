@@ -2,7 +2,7 @@
 
 public class Day01 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Int())).ToList();
 
@@ -26,7 +26,7 @@ public class Day01 : Solution
         return Abs(be) + Abs(bn);
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         var instructions = input.Split(',').Select(l => l.Trim()).Select(l => (l[0], l.Int())).ToList();
 

@@ -2,7 +2,7 @@
 
 public class Day07 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();
@@ -37,7 +37,7 @@ public class Day07 : Solution
         return a;
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();

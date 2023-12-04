@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2023;
 
 public class Day02 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         int t = 0;
 
@@ -44,7 +44,7 @@ public class Day02 : Solution
         return true;
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         int t = 0;
 

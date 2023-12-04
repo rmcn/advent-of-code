@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2023;
 
 public class Day03 : Solution
 {
-    public override object One(string input)
+    public override Answer One(string input)
     {
         int t = 0;
 
@@ -66,7 +66,7 @@ public class Day03 : Solution
         return gears;
     }
 
-    public override object Two(string input)
+    public override Answer Two(string input)
     {
         string[] grid = ParseGrid(input);
 
