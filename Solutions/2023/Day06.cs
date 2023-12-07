@@ -16,10 +16,10 @@ public class Day06 : Solution
             var dist = dists[i];
 
             ulong ways = 0;
-            for (int c = 0; c < time; c++)
+            for (int pressFor = 0; pressFor < time; pressFor++)
             {
-                var left = time - c;
-                var travel = left * c;
+                var timeLeft = time - pressFor;
+                var travel = timeLeft * pressFor;
                 if (travel > dist)
                     ways++;
             }
@@ -37,10 +37,10 @@ public class Day06 : Solution
         var dist = lines[1].Replace(" ", "").Long();
 
         ulong ways = 0;
-        for (int c = 0; c < time; c++)
+        for (int pressFor = 0; pressFor < time; pressFor++)
         {
-            var left = time - c;
-            var travel = left * c;
+            var timeLeft = time - pressFor;
+            var travel = timeLeft * pressFor;
             if (travel > dist)
                 ways++;
         }

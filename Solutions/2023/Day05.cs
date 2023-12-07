@@ -52,7 +52,8 @@ public class Day05 : Solution
             ranges = ApplyMap(ranges, map);
             LogEx(string.Join(", ", ranges));
         }
-        return ranges;
+        Log($"Final range count {ranges.Count}");
+        return ranges;            
     }
 
     List<ValueRange> ApplyMap(List<ValueRange> ranges, List<MapEntry> map)
