@@ -1,6 +1,7 @@
 ﻿global using MoreLinq;
 global using static AdventOfCode.Globals;
 global using static System.Math;
+using System.Numerics;
 
 namespace AdventOfCode
 {
@@ -21,9 +22,9 @@ namespace AdventOfCode
             return result;
         }
 
-        public static ulong Gcd(ulong a, ulong b)
+        public static T Gcd<T>(T a, T b) where T : INumber<T>
         {
-            while (b != 0)
+            while (b != T.Zero)
             {
                 var t = b;
                 b = a % b;
@@ -32,9 +33,9 @@ namespace AdventOfCode
             return a;
         }
 
-        public static ulong Lcm(params ulong[] values)
+        public static T Lcm<T>(params T[] values) where T : INumber<T>
         {
-            ulong lcm = 1;
+            T lcm = T.One;
             for (int i = 0; i < values.Length; i++)
             {
                 lcm = lcm * values[i] / Gcd(lcm, values[i]);
