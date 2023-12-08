@@ -12,7 +12,7 @@ public class Day08 : Solution
 
         var current = nodes["AAA"];
 
-        while(true)
+        while (true)
         {
             for (int i = 0; i < directions.Length; i++)
             {
@@ -29,32 +29,10 @@ public class Day08 : Solution
 
     Node ParseNode(string node)
     {
-        var parts = node.Split(new char[] {'=', ' ', '(', ')', ','}, StringSplitOptions.RemoveEmptyEntries);
+        var parts = node.Split(new char[] { '=', ' ', '(', ')', ',' }, StringSplitOptions.RemoveEmptyEntries);
         return new Node(parts[0], parts[1], parts[2]);
     }
 
-    public ulong CommonMultiple(ulong[] periods)
-    {        
-        ulong x = 0;
-        ulong step = periods.Max();
-        while(true)
-        {
-            int matchCount = 0;
-            for (int l = 0; l < periods.Length; l++)
-            {
-                if (x % periods[l] == 0 )
-                    matchCount++;
-            }
-
-            if (matchCount >= periods.Length - 1)
-                Log($"{matchCount} match at {x}");
-            
-            if (matchCount == periods.Length && x != 0)
-                return x;
-
-            x += step;
-        }
-    }
     public override Answer Two(string input)
     {
         var directions = input.Lines().Where(IsNotBlank).First().Trim();
@@ -64,7 +42,7 @@ public class Day08 : Solution
         var ghostStarts = nodes.Values.Where(n => n.Loc.EndsWith("A")).ToList();
         var periods = ghostStarts.Select(g => GhostPeriod(directions, nodes, g)).ToArray();
 
-        return CommonMultiple(periods);
+        return Lcm(periods);
     }
 
     private ulong GhostPeriod(string directions, Dictionary<string, Node> nodes, Node ghost)

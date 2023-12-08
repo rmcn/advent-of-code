@@ -2,7 +2,7 @@
 
 public class Day11 : Solution
 {
-    Monkey[] ExampleMonkies = new []
+    Monkey[] ExampleMonkies = new[]
     {
         new Monkey { Index = 0, Op = (old) => old * 19, Test = new (23, 2, 3), InitItems = {79, 98} },
         new Monkey { Index = 1, Op = (old) => old + 6, Test = new (19, 2, 0), InitItems = {54, 65, 75, 74} },
@@ -10,7 +10,7 @@ public class Day11 : Solution
         new Monkey { Index = 3, Op = (old) => old + 3, Test = new (17, 0, 1), InitItems = {74} },
     };
 
-    Monkey[] InputMonkies = new []
+    Monkey[] InputMonkies = new[]
     {
         new Monkey { Index = 0, Op = (old) => old * 19,  Test = new (7, 6, 2), InitItems = {59, 74, 65, 86} },
         new Monkey { Index = 1, Op = (old) => old + 1,   Test = new (2, 2, 0), InitItems = {62, 84, 72, 91, 68, 78, 51} },
@@ -26,12 +26,12 @@ public class Day11 : Solution
     {
         var monkies = InputMonkies;
 
-        foreach(var monkey in monkies)
+        foreach (var monkey in monkies)
             monkey.Reset();
 
-        for(int round = 0; round < 20; round++)
+        for (int round = 0; round < 20; round++)
         {
-            foreach(var monkey in monkies)
+            foreach (var monkey in monkies)
             {
                 while (monkey.Items.Count > 0)
                 {

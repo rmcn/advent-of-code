@@ -20,5 +20,26 @@ namespace AdventOfCode
 
             return result;
         }
+
+        public static ulong Gcd(ulong a, ulong b)
+        {
+            while (b != 0)
+            {
+                var t = b;
+                b = a % b;
+                a = t;
+            }
+            return a;
+        }
+
+        public static ulong Lcm(params ulong[] values)
+        {
+            ulong lcm = 1;
+            for (int i = 0; i < values.Length; i++)
+            {
+                lcm = lcm * values[i] / Gcd(lcm, values[i]);
+            }
+            return lcm;
+        }
     }
 }
