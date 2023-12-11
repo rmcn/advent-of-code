@@ -35,7 +35,7 @@ LJ...";
     {
         var start = grid.Where(e => e.Value == 'S').Select(e => e.Key).Single();
 
-        foreach(var startDir in new (int x, int y)[] {(0, 1), (0, -1), (1, 0), (-1, 0)})
+        foreach (var startDir in new (int x, int y)[] { (0, 1), (0, -1), (1, 0), (-1, 0) })
         {
             var loop = new Dictionary<(int x, int y), char>();
             var current = (x: start.x + startDir.x, y: start.y + startDir.y);
@@ -43,7 +43,7 @@ LJ...";
             var prev = start;
 
             int steps = 1;
-            while(true)
+            while (true)
             {
                 var currentTile = grid.GetValueOrDefault(current, '.');
 
@@ -60,7 +60,8 @@ LJ...";
                 prev = current;
                 current = exits.Single();
 
-                if (current == start) {
+                if (current == start)
+                {
                     // work out what start is?!
                     var lastStep = (x: prev.x - current.x, y: prev.y - current.y);
                     var startTile = tiles.Single(t => t.Value.Contains(startDir) && t.Value.Contains(lastStep)).Key;
@@ -81,7 +82,7 @@ LJ...";
         {
             return exits.Where(e => e != from).ToArray();
         }
-        return new (int x, int y)[] {};
+        return new (int x, int y)[] { };
     }
 
     enum Loc { Outside, InsideBelow, InsideAbove, Inside };
@@ -97,7 +98,7 @@ LJ...";
         var width = lines.First().Trim().Length;
 
         int t = 0;
-        for(int y = 0; y < height; y++)
+        for (int y = 0; y < height; y++)
         {
             var loc = Loc.Outside;
             for (int x = 0; x < width; x++)
