@@ -25,16 +25,16 @@ public class Day12 : Solution
 
     public override Answer One(string input)
     {
+        Lookup = null; // Don't need memoization for part 1
+
         var sw = Stopwatch.StartNew();
-        ulong t = 0;
 
         var puzzles = input.Lines().Where(IsNotBlank).Select(ParsePuzzle).ToList();
 
+        ulong t = 0;
         foreach (var p in puzzles)
         {
-            var c = CountValid(p.Springs, p.Lengths, 0, 0);
-            LogEx($"{p.Springs} count {c}");
-            t += c;
+            t += CountValid(p.Springs, p.Lengths, 0, 0);
         }
 
         Log($"Complete in {sw.ElapsedMilliseconds:0}");
@@ -42,14 +42,91 @@ public class Day12 : Solution
         return t;
     }
 
-    string ReplaceAt(string s, int i, char r)
+
+    ulong CountValid(string springs, int[] lengths, int i, int b)
+    {
+        if (Lookup != null)
+        {
+            var key = springs.Substring(i) + ":" + b;
+            if (Lookup.ContainsKey(key))
+            {
+                return Lookup[key];
+            }
+        }
+
+        if (b == lengths.Length)
+        {
+            // We've run out of broken runs to place
+            // For this to be a valid placement all remaining springs should be '?' or '.'
+            for (int j = i; j < springs.Length; j++)
+                if (springs[j] == '#')
+                    return 0;
+            return 1;
+        }
+
+        // If we've reached the end this is not a valid solution, because we haven't placed all our broken run yet
+        if (i == springs.Length)
+            return 0;
+
+        // Step over working springs
+        if (springs[i] == '.')
+        {
+            return CountValid(springs, lengths, i + 1, b);
+        }
+
+        if (springs[i] == '#')
+        {
+            // A broken spring run must start here
+            if (CanPlaceBrokenRun(springs, i, lengths[b]))
+            {
+                var withBroken = PlaceBrokenRun(springs, i, lengths[b]);
+                return CountValid(withBroken, lengths, i + lengths[b] + 1, b + 1);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        // Must be a '?' so try placing both '#' and '.'
+        ulong t = 0;
+
+        if (CanPlaceBrokenRun(springs, i, lengths[b]))
+        {
+            var withRange = PlaceBrokenRun(springs, i, lengths[b]);
+            t += CountValid(withRange, lengths, i + lengths[b] + 1, b + 1);
+        }
+
+        var withWorking = PlaceSingleWorking(springs, i);
+        t += CountValid(withWorking, lengths, i + 1, b);
+
+        return t;
+    }
+
+    // Can we place a sequence of broken springs and a final '.' (or use ones already there)
+    private bool CanPlaceBrokenRun(string springs, int start, int brokenCount)
+    {
+        if (start + brokenCount > springs.Length)
+            return false;
+
+        for (int i = start; i < start + brokenCount; i++)
+        {
+            if (springs[i] == '.')
+                return false;
+        }
+
+        // must end with a '.' or a '?'
+        return springs[start + brokenCount] != '#';
+    }
+
+    string PlaceSingleWorking(string s, int i)
     {
         var chars = s.ToCharArray();
-        chars[i] = r;
+        chars[i] = '.';
         return new string(chars);
     }
 
-    private string ReplaceRange(string s, int start, int brokenCount)
+    string PlaceBrokenRun(string s, int start, int brokenCount)
     {
         var chars = s.ToCharArray();
         for (int i = start; i < start + brokenCount; i++)
@@ -63,84 +140,6 @@ public class Day12 : Solution
         return new string(chars);
     }
 
-    private ulong CountValid(string springs, int[] lengths, int i, int b)
-    {
-        if (Lookup != null)
-        {
-            var key = springs.Substring(i) + ":" + b;
-            if (Lookup.ContainsKey(key))
-            {
-                return Lookup[key];
-            }
-        }
-
-        if (b == lengths.Length)
-        {
-            for (int j = i; j < springs.Length; j++)
-                if (springs[j] == '#')
-                    return 0;
-            return 1;
-        }
-
-        if (i == springs.Length)
-            return 0;
-
-        if (springs[i] == '.')
-        {
-            return CountValid(springs, lengths, i + 1, b);
-        }
-
-        if (springs[i] == '#')
-        {
-            if (b >= lengths.Length)
-                return 0;
-
-            if (CanPlace(springs, i, lengths[b]))
-            {
-                var withRange = ReplaceRange(springs, i, lengths[b]);
-                return CountValid(withRange, lengths, i + lengths[b] + 1, b + 1);
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-
-        ulong t = 0;
-
-        if (b < lengths.Length && CanPlace(springs, i, lengths[b]))
-        {
-            var withRange = ReplaceRange(springs, i, lengths[b]);
-            t += CountValid(withRange, lengths, i + lengths[b] + 1, b + 1);
-        }
-
-        var withSpring = ReplaceAt(springs, i, '.');
-        t += CountValid(withSpring, lengths, i + 1, b);
-
-        return t;
-    }
-
-
-    // Can place a sequence of broken springs and a final '.' (or end of list)
-    private bool CanPlace(string springs, int start, int brokenCount)
-    {
-        if (start + brokenCount > springs.Length)
-            return false;
-
-        for (int i = start; i < start + brokenCount; i++)
-        {
-            if (springs[i] == '.')
-                return false;
-        }
-
-        if (start + brokenCount == springs.Length) // At end of string, no need for '.' terminator
-            return true;
-
-        // must end with a '.' or a '?'
-        return springs[start + brokenCount] != '#';
-    }
-
 
     static Dictionary<string, ulong> Lookup = null;
 
@@ -152,34 +151,36 @@ public class Day12 : Solution
 
         foreach (var p in puzzles)
         {
-            Log($"Processing {p.Springs} {string.Join(',', p.Lengths)}");
+            //Log($"Processing {p.Springs} {string.Join(',', p.Lengths)}");
 
             Lookup = new Dictionary<string, ulong>();
 
-            foreach (int i in GetHalfIndexes(p.Springs))
+            // Break the list into smaller sub-problems, starting at the end and working back
+            // Memoise the counts as we go, so longer sequences can benefit from answers we've
+            // already calculated
+            foreach (int i in StartIndexes(p.Springs))
             {
-                var half = p.Springs.Substring(i);
-                for(int b = 0; b < p.Lengths.Length; b++)
+                var partialSprings = p.Springs.Substring(i);
+                for (int b = 0; b < p.Lengths.Length; b++)
                 {
-                    var x = CountValid(half, p.Lengths, 0, b);
-                    Lookup.Add($"{half}:{b}", x);
-                    //Log($"Half count at {i} for {b} is {x}");
+                    var x = CountValid(partialSprings, p.Lengths, 0, b);
+                    Lookup.Add($"{partialSprings}:{b}", x);
                 }
             }
 
-            var c = CountValid(p.Springs, p.Lengths, 0, 0);
-            t += c;
+            t += CountValid(p.Springs, p.Lengths, 0, 0);
         }
 
         return t;
     }
 
-    private List<int> GetHalfIndexes(string springs)
+    // Indexes where it's possible to place a broken run.
+    private List<int> StartIndexes(string springs)
     {
         var result = new List<int>();
         for (int i = springs.Length / 5; i < springs.Length; i++)
         {
-            if (springs[i] == '?' && (springs[i-1] == '?' || springs[i-1] == '.'))
+            if (springs[i] == '?' && (springs[i - 1] == '?' || springs[i - 1] == '.'))
                 result.Add(i);
         }
         result.Reverse();
