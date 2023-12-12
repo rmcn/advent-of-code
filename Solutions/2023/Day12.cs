@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics;
+
 namespace AdventOfCode.Year2023;
 
 public class Day12 : Solution
@@ -13,31 +15,41 @@ public class Day12 : Solution
         return new Puzzle(parts[0].Trim(), parts[1].Ints().ToArray());
     }
 
+    Puzzle ParsePuzzleTwo(string s)
+    {
+        var parts = s.Split(' ');
+        return new Puzzle(RepeatFive(parts[0].Trim(), '?'), RepeatFive(parts[1], ',').Ints().ToArray());
+    }
+
+    string RepeatFive(string s, char c) => s + c + s + c + s + c + s + c + s;
+
+
     public override Answer One(string input)
     {
+        var sw = Stopwatch.StartNew();
         int t = 0;
 
         var puzzles = input.Lines().Where(IsNotBlank).Select(ParsePuzzle).ToList();
 
         foreach (var p in puzzles)
         {
-            var c = CountValid(p.Springs, p.Lengths);
+            var c = CountValid(p.Springs, p.Lengths, 0);
             LogEx($"{p.Springs} count {c}");
             t += c;
         }
 
+        Log($"Complete in {sw.ElapsedMilliseconds:0}");
+
         return t;
     }
 
-    string ReplaceFirst(string s, char r)
+    string ReplaceAt(string s, int i, char r)
     {
-        var i = s.IndexOf('?');
         var chars = s.ToCharArray();
         chars[i] = r;
         return new string(chars);
     }
 
-    static char[] Splits = new char [] {'?', '.'};
 
     bool IsValid(string s, int[] lengths)
     {
@@ -68,26 +80,37 @@ public class Day12 : Solution
         return true;*/
     }
 
-    private int CountValid(string springs, int[] lengths)
+    private int CountValid(string springs, int[] lengths, int i)
     {
-        int t = 0;
-        if (springs.Any(s => s == '?'))
-        {
-            if (!IsPotential(springs, lengths))
-                return 0;
-            
-            t += CountValid(ReplaceFirst(springs, '.'), lengths);
-            t += CountValid(ReplaceFirst(springs, '#'), lengths);
-            return t;
-        }
-        else
-        {
+        if (i == springs.Length)
             return IsValid(springs, lengths) ? 1 : 0;
-        }
+
+        if (springs[i] != '?')
+            return CountValid(springs, lengths, i + 1);
+
+        if (!IsPotential(springs, lengths))
+            return 0;
+
+        int t = 0;
+        t += CountValid(ReplaceAt(springs, i, '.'), lengths, i + 1);
+        t += CountValid(ReplaceAt(springs, i, '#'), lengths, i + 1);
+        return t;
     }
 
     public override Answer Two(string input)
     {
         return 0;
+        int t = 0;
+
+        var puzzles = input.Lines().Where(IsNotBlank).Select(ParsePuzzleTwo).ToList();
+
+        foreach (var p in puzzles)
+        {
+            var c = CountValid(p.Springs, p.Lengths, 0);
+            LogEx($"{p.Springs} count {c}");
+            t += c;
+        }
+
+        return t;
     }
 }
