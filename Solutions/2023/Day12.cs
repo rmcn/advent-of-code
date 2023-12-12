@@ -23,7 +23,6 @@ public class Day12 : Solution
 
     string RepeatFive(string s, char c) => s + c + s + c + s + c + s + c + s;
 
-
     public override Answer One(string input)
     {
         var sw = Stopwatch.StartNew();
@@ -64,45 +63,23 @@ public class Day12 : Solution
         return new string(chars);
     }
 
-
-
-    bool IsValid(string s, int[] lengths)
-    {
-        var parts = s.Split('.', StringSplitOptions.RemoveEmptyEntries);
-        if (parts.Length != lengths.Length)
-            return false;
-        for(int i = 0; i < lengths.Length; i++)
-        {
-            if (parts[i].Length != lengths[i])
-                return false;
-        }
-        return true;
-    }
-
-    bool IsPotential(string s, int[] lengths)
-    {
-        var broken = s.Count(c => c == '#');
-        var unknown = s.Count(c => c == '?');
-        var total = lengths.Sum();
-        return broken <= total && broken + unknown >= total;
-        /*
-        var parts = s.Split(Splits, StringSplitOptions.RemoveEmptyEntries);
-        for(int i = 0; i < lengths.Length && i < parts.Length; i++)
-        {
-            if (parts[i].Length > lengths[i])
-                return false;
-        }
-        return true;*/
-    }
-
     private int CountValid(string springs, int[] lengths, int i, int b)
     {
+        if (b == lengths.Length)
+        {
+            for (int j = i; j < springs.Length; j++)
+                if (springs[j] == '#')
+                    return 0;
+            return 1;
+        }
+
         if (i == springs.Length)
-            return IsValid(springs, lengths) ? 1 : 0;
+            return 0;
 
         if (springs[i] == '.')
+        {
             return CountValid(springs, lengths, i + 1, b);
-
+        }
 
         if (springs[i] == '#')
         {
