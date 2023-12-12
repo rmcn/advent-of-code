@@ -26,7 +26,7 @@ public class Day12 : Solution
     public override Answer One(string input)
     {
         var sw = Stopwatch.StartNew();
-        int t = 0;
+        ulong t = 0;
 
         var puzzles = input.Lines().Where(IsNotBlank).Select(ParsePuzzle).ToList();
 
@@ -63,12 +63,15 @@ public class Day12 : Solution
         return new string(chars);
     }
 
-    private int CountValid(string springs, int[] lengths, int i, int b)
+    private ulong CountValid(string springs, int[] lengths, int i, int b)
     {
-        if (UseHalfCounts && i == HalfIndex)
+        if (Lookup != null)
         {
-            Console.Write("+");
-            return HalfCounts[b];
+            var key = springs.Substring(i) + ":" + b;
+            if (Lookup.ContainsKey(key))
+            {
+                return Lookup[key];
+            }
         }
 
         if (b == lengths.Length)
@@ -104,7 +107,7 @@ public class Day12 : Solution
         }
 
 
-        int t = 0;
+        ulong t = 0;
 
         if (b < lengths.Length && CanPlace(springs, i, lengths[b]))
         {
@@ -138,12 +141,12 @@ public class Day12 : Solution
         return springs[start + brokenCount] != '#';
     }
 
-    private static int[] HalfCounts = null;
-    private static int HalfIndex = 0;
-    static bool UseHalfCounts = false;
+
+    static Dictionary<string, ulong> Lookup = null;
+
     public override Answer Two(string input)
     {
-        int t = 0;
+        ulong t = 0;
 
         var puzzles = input.Lines().Where(IsNotBlank).Select(ParsePuzzleTwo).ToList();
 
@@ -151,21 +154,19 @@ public class Day12 : Solution
         {
             Log($"Processing {p.Springs} {string.Join(',', p.Lengths)}");
 
+            Lookup = new Dictionary<string, ulong>();
 
-            HalfIndex = GetHalfIndex(p.Springs);
-            var half = p.Springs.Substring(HalfIndex);
-
-            Log($"Half {half}");
-            HalfCounts = new int[p.Lengths.Length];
-            UseHalfCounts = false;
-            for(int b = 0; b < p.Lengths.Length; b++)
+            foreach (int i in GetHalfIndexes(p.Springs))
             {
-                var x = CountValid(half, p.Lengths, 0, b);
-                HalfCounts[b] = x;
-                Log($"Half count for {b} is {x}");
+                var half = p.Springs.Substring(i);
+                for(int b = 0; b < p.Lengths.Length; b++)
+                {
+                    var x = CountValid(half, p.Lengths, 0, b);
+                    Lookup.Add($"{half}:{b}", x);
+                    //Log($"Half count at {i} for {b} is {x}");
+                }
             }
 
-            UseHalfCounts = true;
             var c = CountValid(p.Springs, p.Lengths, 0, 0);
             t += c;
         }
@@ -173,13 +174,15 @@ public class Day12 : Solution
         return t;
     }
 
-    private int GetHalfIndex(string springs)
+    private List<int> GetHalfIndexes(string springs)
     {
+        var result = new List<int>();
         for (int i = springs.Length / 5; i < springs.Length; i++)
         {
             if (springs[i] == '?' && (springs[i-1] == '?' || springs[i-1] == '.'))
-                return i;
+                result.Add(i);
         }
-        return springs.Length;
+        result.Reverse();
+        return result;
     }
 }
