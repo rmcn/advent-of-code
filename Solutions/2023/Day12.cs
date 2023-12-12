@@ -65,6 +65,12 @@ public class Day12 : Solution
 
     private int CountValid(string springs, int[] lengths, int i, int b)
     {
+        if (UseHalfCounts && i == HalfIndex)
+        {
+            Console.Write("+");
+            return HalfCounts[b];
+        }
+
         if (b == lengths.Length)
         {
             for (int j = i; j < springs.Length; j++)
@@ -132,6 +138,9 @@ public class Day12 : Solution
         return springs[start + brokenCount] != '#';
     }
 
+    private static int[] HalfCounts = null;
+    private static int HalfIndex = 0;
+    static bool UseHalfCounts = false;
     public override Answer Two(string input)
     {
         int t = 0;
@@ -141,10 +150,36 @@ public class Day12 : Solution
         foreach (var p in puzzles)
         {
             Log($"Processing {p.Springs} {string.Join(',', p.Lengths)}");
+
+
+            HalfIndex = GetHalfIndex(p.Springs);
+            var half = p.Springs.Substring(HalfIndex);
+
+            Log($"Half {half}");
+            HalfCounts = new int[p.Lengths.Length];
+            UseHalfCounts = false;
+            for(int b = 0; b < p.Lengths.Length; b++)
+            {
+                var x = CountValid(half, p.Lengths, 0, b);
+                HalfCounts[b] = x;
+                Log($"Half count for {b} is {x}");
+            }
+
+            UseHalfCounts = true;
             var c = CountValid(p.Springs, p.Lengths, 0, 0);
             t += c;
         }
 
         return t;
+    }
+
+    private int GetHalfIndex(string springs)
+    {
+        for (int i = springs.Length / 5; i < springs.Length; i++)
+        {
+            if (springs[i] == '?' && (springs[i-1] == '?' || springs[i-1] == '.'))
+                return i;
+        }
+        return springs.Length;
     }
 }
