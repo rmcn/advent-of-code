@@ -34,7 +34,7 @@ public class Day12 : Solution
         ulong t = 0;
         foreach (var p in puzzles)
         {
-            t += CountValid(p.Springs, p.Lengths, 0, 0);
+            t += CountValid(p.Springs, p.Lengths, 0);
         }
 
         Log($"Complete in {sw.ElapsedMilliseconds:0}");
@@ -43,44 +43,43 @@ public class Day12 : Solution
     }
 
 
-    ulong CountValid(string springs, int[] lengths, int i, int b)
+    ulong CountValid(string springs, int[] brokenRunLengths, int brokenRunIndex)
     {
         if (Lookup != null)
         {
-            var key = springs.Substring(i) + ":" + b;
+            var key = springs + ":" + brokenRunIndex;
             if (Lookup.ContainsKey(key))
             {
                 return Lookup[key];
             }
         }
 
-        if (b == lengths.Length)
+        if (brokenRunIndex == brokenRunLengths.Length)
         {
             // We've run out of broken runs to place
             // For this to be a valid placement all remaining springs should be '?' or '.'
-            for (int j = i; j < springs.Length; j++)
-                if (springs[j] == '#')
+            for (int i = 0; i < springs.Length; i++)
+                if (springs[i] == '#')
                     return 0;
             return 1;
         }
 
         // If we've reached the end this is not a valid solution, because we haven't placed all our broken run yet
-        if (i == springs.Length)
+        if (springs == "")
             return 0;
 
         // Step over working springs
-        if (springs[i] == '.')
+        if (springs[0] == '.')
         {
-            return CountValid(springs, lengths, i + 1, b);
+            return CountValid(springs.Substring(1), brokenRunLengths, brokenRunIndex);
         }
 
-        if (springs[i] == '#')
+        if (springs[0] == '#')
         {
             // A broken spring run must start here
-            if (CanPlaceBrokenRun(springs, i, lengths[b]))
+            if (CanPlaceBrokenRun(springs, brokenRunLengths[brokenRunIndex]))
             {
-                var withBroken = PlaceBrokenRun(springs, i, lengths[b]);
-                return CountValid(withBroken, lengths, i + lengths[b] + 1, b + 1);
+                return CountValid(springs.Substring(brokenRunLengths[brokenRunIndex] + 1), brokenRunLengths, brokenRunIndex + 1);
             }
             else
             {
@@ -91,55 +90,31 @@ public class Day12 : Solution
         // Must be a '?' so try placing both '#' and '.'
         ulong t = 0;
 
-        if (CanPlaceBrokenRun(springs, i, lengths[b]))
+        if (CanPlaceBrokenRun(springs, brokenRunLengths[brokenRunIndex]))
         {
-            var withRange = PlaceBrokenRun(springs, i, lengths[b]);
-            t += CountValid(withRange, lengths, i + lengths[b] + 1, b + 1);
+            t += CountValid(springs.Substring(brokenRunLengths[brokenRunIndex] + 1), brokenRunLengths, brokenRunIndex + 1);
         }
 
-        var withWorking = PlaceSingleWorking(springs, i);
-        t += CountValid(withWorking, lengths, i + 1, b);
+        t += CountValid(springs.Substring(1), brokenRunLengths, brokenRunIndex);
 
         return t;
     }
 
     // Can we place a sequence of broken springs and a final '.' (or use ones already there)
-    private bool CanPlaceBrokenRun(string springs, int start, int brokenCount)
+    private bool CanPlaceBrokenRun(string springs, int brokenCount)
     {
-        if (start + brokenCount > springs.Length)
+        if (brokenCount > springs.Length)
             return false;
 
-        for (int i = start; i < start + brokenCount; i++)
+        for (int i = 0; i < brokenCount; i++)
         {
             if (springs[i] == '.')
                 return false;
         }
 
         // must end with a '.' or a '?'
-        return springs[start + brokenCount] != '#';
+        return springs[brokenCount] != '#';
     }
-
-    string PlaceSingleWorking(string s, int i)
-    {
-        var chars = s.ToCharArray();
-        chars[i] = '.';
-        return new string(chars);
-    }
-
-    string PlaceBrokenRun(string s, int start, int brokenCount)
-    {
-        var chars = s.ToCharArray();
-        for (int i = start; i < start + brokenCount; i++)
-        {
-            chars[i] = '#';
-        }
-
-        if (start + brokenCount < s.Length)
-            chars[start + brokenCount] = '.';
-
-        return new string(chars);
-    }
-
 
     static Dictionary<string, ulong> Lookup = null;
 
@@ -156,19 +131,19 @@ public class Day12 : Solution
             Lookup = new Dictionary<string, ulong>();
 
             // Break the list into smaller sub-problems, starting at the end and working back
-            // Memoise the counts as we go, so longer sequences can benefit from answers we've
+            // Memoise the counts as we go, so longer sub-problems can benefit from answers we've
             // already calculated
             foreach (int i in StartIndexes(p.Springs))
             {
                 var partialSprings = p.Springs.Substring(i);
                 for (int b = 0; b < p.Lengths.Length; b++)
                 {
-                    var x = CountValid(partialSprings, p.Lengths, 0, b);
+                    var x = CountValid(partialSprings, p.Lengths, b);
                     Lookup.Add($"{partialSprings}:{b}", x);
                 }
             }
 
-            t += CountValid(p.Springs, p.Lengths, 0, 0);
+            t += CountValid(p.Springs, p.Lengths, 0);
         }
 
         return t;
