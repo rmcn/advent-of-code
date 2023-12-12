@@ -1,5 +1,6 @@
 ﻿
 using System.Diagnostics;
+using System.Text;
 
 namespace AdventOfCode.Year2023;
 
@@ -33,7 +34,7 @@ public class Day12 : Solution
 
         foreach (var p in puzzles)
         {
-            var c = CountValid(p.Springs, p.Lengths, 0);
+            var c = CountValid(new StringBuilder(p.Springs), p.Lengths, 0);
             LogEx($"{p.Springs} count {c}");
             t += c;
         }
@@ -43,44 +44,59 @@ public class Day12 : Solution
         return t;
     }
 
-    string ReplaceAt(string s, int i, char r)
+    StringBuilder ReplaceAt(StringBuilder s, int i, char r)
     {
-        var chars = s.ToCharArray();
-        chars[i] = r;
-        return new string(chars);
+        s[i] = r;
+        return s;
     }
 
 
-    bool IsValid(string s, int[] lengths)
+    bool IsValid(StringBuilder s, int[] lengths)
     {
-        var parts = s.Split('.', StringSplitOptions.RemoveEmptyEntries);
-        if (parts.Length != lengths.Length)
-            return false;
-        for(int i = 0; i < lengths.Length; i++)
+        var j = 0;
+
+        var brokenCount = 0;
+        for (int i = 0; i <= s.Length; i++)
         {
-            if (parts[i].Length != lengths[i])
-                return false;
+            var c = i == s.Length ? '.' : s[i];
+            if (c == '.')
+            {
+                if (brokenCount != 0)
+                {
+                    if (j >= lengths.Length || lengths[j] != brokenCount)
+                        return false;
+                    
+                    j++;
+                    brokenCount = 0;
+                }
+            }
+            else
+            {
+                brokenCount++;
+            }
         }
-        return true;
+
+        return j == lengths.Length;
     }
 
-    bool IsPotential(string s, int[] lengths)
+    bool IsPotential(StringBuilder s, int[] lengths)
     {
-        var broken = s.Count(c => c == '#');
-        var unknown = s.Count(c => c == '?');
+        var broken = 0;
+        var unknown = 0;
         var total = lengths.Sum();
-        return broken <= total && broken + unknown >= total;
-        /*
-        var parts = s.Split(Splits, StringSplitOptions.RemoveEmptyEntries);
-        for(int i = 0; i < lengths.Length && i < parts.Length; i++)
+
+        for(int i = 0; i < s.Length; i++)
         {
-            if (parts[i].Length > lengths[i])
-                return false;
+            var c = s[i];
+
+            if (c == '#') broken++;
+            if (c == '?') unknown++;
         }
-        return true;*/
+
+        return broken <= total && broken + unknown >= total;
     }
 
-    private int CountValid(string springs, int[] lengths, int i)
+    private int CountValid(StringBuilder springs, int[] lengths, int i)
     {
         if (i == springs.Length)
             return IsValid(springs, lengths) ? 1 : 0;
@@ -94,6 +110,7 @@ public class Day12 : Solution
         int t = 0;
         t += CountValid(ReplaceAt(springs, i, '.'), lengths, i + 1);
         t += CountValid(ReplaceAt(springs, i, '#'), lengths, i + 1);
+        ReplaceAt(springs, i, '?');
         return t;
     }
 
@@ -106,7 +123,7 @@ public class Day12 : Solution
 
         foreach (var p in puzzles)
         {
-            var c = CountValid(p.Springs, p.Lengths, 0);
+            var c = CountValid(new StringBuilder(p.Springs), p.Lengths, 0);
             LogEx($"{p.Springs} count {c}");
             t += c;
         }
