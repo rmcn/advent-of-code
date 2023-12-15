@@ -11,7 +11,7 @@ public class Day13 : Solution
     {
         int t = 0;
 
-        foreach(var g in input.Lines().Segment(IsBlank))
+        foreach (var g in input.Lines().Segment(IsBlank))
         {
             var grid = g.Where(IsNotBlank).Select(s => new StringBuilder(s)).ToArray();
             t += Score(grid, 0);
@@ -44,9 +44,9 @@ public class Day13 : Solution
     {
         for (int r = 0; r < grid.Length; r++)
         {
-            for(int dc = 0; c + dc - 1 < grid[r].Length && c - dc >= 0; dc++)
+            for (int dc = 0; c + dc - 1 < grid[r].Length && c - dc >= 0; dc++)
             {
-                if (grid[r][c+dc-1] != grid[r][c-dc])
+                if (grid[r][c + dc - 1] != grid[r][c - dc])
                 {
                     return false;
                 }
@@ -59,9 +59,9 @@ public class Day13 : Solution
     {
         for (int c = 0; c < grid[r].Length; c++)
         {
-            for(int dr = 0; r + dr - 1 < grid.Length && r - dr >= 0; dr++)
+            for (int dr = 0; r + dr - 1 < grid.Length && r - dr >= 0; dr++)
             {
-                if (grid[r+dr-1][c] != grid[r-dr][c])
+                if (grid[r + dr - 1][c] != grid[r - dr][c])
                 {
                     return false;
                 }
@@ -74,7 +74,7 @@ public class Day13 : Solution
     {
         int t = 0;
 
-        foreach(var g in input.Lines().Segment(IsBlank))
+        foreach (var g in input.Lines().Segment(IsBlank))
         {
             var grid = g.Where(IsNotBlank).Select(s => new StringBuilder(s)).ToArray();
             t += ScoreTwo(grid);
@@ -98,7 +98,7 @@ public class Day13 : Solution
                 var s = Score(grid, oldScore);
                 if (s != 0)
                     return s;
-                Toggle(grid, r, c);                
+                Toggle(grid, r, c);
             }
         }
         throw new Exception("No reflect");
