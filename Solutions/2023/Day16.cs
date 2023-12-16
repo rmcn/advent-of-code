@@ -10,29 +10,26 @@ public class Day16 : Solution
 {
     public override Answer One(string input)
     {
-        var g = ParseGrid(input);
+        var g = Grid.Parse(input, '#');
         var startRay = new Ray(new Point(0, 0), Dir.Right);
         return CountEnegized(g, startRay);
     }
 
     public override Answer Two(string input)
     {
-        var g = ParseGrid(input);
-        var rows = input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        var width = rows[0].Length;
-        var height = rows.Length;
+        var g = Grid.Parse(input, '#');
 
-        var rightRays = Enumerable.Range(0, height).Select(y => new Ray(new Point(0, y), Dir.Right));
-        var leftRays = Enumerable.Range(0, height).Select(y => new Ray(new Point(width - 1, y), Dir.Left));
-        var downRays = Enumerable.Range(0, width).Select(x => new Ray(new Point(x, 0), Dir.Down));
-        var upRays = Enumerable.Range(0, width).Select(x => new Ray(new Point(x, height - 1), Dir.Up));
+        var rightRays = Enumerable.Range(0, g.Height).Select(y => new Ray(new Point(0, y), Dir.Right));
+        var leftRays = Enumerable.Range(0, g.Height).Select(y => new Ray(new Point(g.Width - 1, y), Dir.Left));
+        var downRays = Enumerable.Range(0, g.Width).Select(x => new Ray(new Point(x, 0), Dir.Down));
+        var upRays = Enumerable.Range(0, g.Width).Select(x => new Ray(new Point(x, g.Height - 1), Dir.Up));
 
         var startRays = rightRays.Concat(leftRays).Concat(downRays).Concat(upRays);
 
         return startRays.Select(r => CountEnegized(g, r)).Max();
     }
 
-    private static int CountEnegized(Dictionary<Point, char> g, Ray startRay)
+    private static int CountEnegized(Grid g, Ray startRay)
     {
         var waveFront = new Queue<Ray>(new[] { startRay });
         var seen = new HashSet<Ray>();
@@ -40,7 +37,7 @@ public class Day16 : Solution
         while (waveFront.Count > 0)
         {
             var ray = waveFront.Dequeue();
-            var c = g.GetValueOrDefault(ray.Loc, '#');
+            var c = g[ray.Loc];
 
             if (c == '#' || seen.Contains(ray))
                 continue;
@@ -100,21 +97,6 @@ public class Day16 : Solution
         }
 
         return seen.Select(r => r.Loc).Distinct().Count();
-    }
-
-    private static Dictionary<Point, char> ParseGrid(string input)
-    {
-        var g = new Dictionary<Point, char>();
-
-        foreach (var (s, y) in input.Lines().Where(IsNotBlank).Select((s, y) => (s, y)))
-        {
-            foreach (var (c, x) in s.ToCharArray().Select((c, x) => (c, x)))
-            {
-                g[new Point(x, y)] = c;
-            }
-        }
-
-        return g;
     }
 }
 
