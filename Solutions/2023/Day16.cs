@@ -11,9 +11,25 @@ public class Day16 : Solution
     public override Answer One(string input)
     {
         var g = ParseGrid(input);
-
         var startRay = new Ray(new Point(0, 0), Dir.Right);
         return CountEnegized(g, startRay);
+    }
+
+    public override Answer Two(string input)
+    {
+        var g = ParseGrid(input);
+        var rows = input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        var width = rows[0].Length;
+        var height = rows.Length;
+
+        var rightRays = Enumerable.Range(0, height).Select(y => new Ray(new Point(0, y), Dir.Right));
+        var leftRays = Enumerable.Range(0, height).Select(y => new Ray(new Point(width - 1, y), Dir.Left));
+        var downRays = Enumerable.Range(0, width).Select(x => new Ray(new Point(x, 0), Dir.Down));
+        var upRays = Enumerable.Range(0, width).Select(x => new Ray(new Point(x, height - 1), Dir.Up));
+
+        var startRays = rightRays.Concat(leftRays).Concat(downRays).Concat(upRays);
+
+        return startRays.Select(r => CountEnegized(g, r)).Max();
     }
 
     private static int CountEnegized(Dictionary<Point, char> g, Ray startRay)
@@ -100,23 +116,6 @@ public class Day16 : Solution
 
         return g;
     }
-
-    public override Answer Two(string input)
-    {
-        var g = ParseGrid(input);
-        var rows = input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        var width = rows[0].Length;
-        var height = rows.Length;
-
-        var right = Enumerable.Range(0, height).Select(y => new Ray(new Point(0, y), Dir.Right));
-        var left = Enumerable.Range(0, height).Select(y => new Ray(new Point(width - 1, y), Dir.Left));
-        var down = Enumerable.Range(0, width).Select(x => new Ray(new Point(x, 0), Dir.Down));
-        var up = Enumerable.Range(0, width).Select(x => new Ray(new Point(x, height - 1), Dir.Up));
-
-        var startRays = right.Concat(left).Concat(down).Concat(up);
-
-        return startRays.Select(r => CountEnegized(g, r)).Max();
-    }
 }
 
 public static class Day16Extensions
@@ -125,20 +124,20 @@ public static class Day16Extensions
     {
         return ray.Dir switch
         {
-            Dir.Up => ray with { Loc = new Point(ray.Loc.X, ray.Loc.Y - 1) },
-            Dir.Down => ray with { Loc = new Point(ray.Loc.X, ray.Loc.Y + 1) },
-            Dir.Left => ray with { Loc = new Point(ray.Loc.X - 1, ray.Loc.Y) },
-            Dir.Right => ray with { Loc = new Point(ray.Loc.X + 1, ray.Loc.Y) },
+            Dir.Up => ray.Up(),
+            Dir.Down => ray.Down(),
+            Dir.Left => ray.Left(),
+            Dir.Right => ray.Right(),
             _ => throw new Exception(),
         };
     }
 
     public static Ray Up(this Ray ray)
-        => ray with { Loc = new Point(ray.Loc.X, ray.Loc.Y - 1), Dir = Dir.Up };
+        => ray with { Loc = ray.Loc with { Y = ray.Loc.Y - 1 }, Dir = Dir.Up };
     public static Ray Down(this Ray ray)
-        => ray with { Loc = new Point(ray.Loc.X, ray.Loc.Y + 1), Dir = Dir.Down };
+        => ray with { Loc = ray.Loc with { Y = ray.Loc.Y + 1 }, Dir = Dir.Down };
     public static Ray Left(this Ray ray)
-        => ray with { Loc = new Point(ray.Loc.X - 1, ray.Loc.Y), Dir = Dir.Left };
+        => ray with { Loc = ray.Loc with { X = ray.Loc.X - 1 }, Dir = Dir.Left };
     public static Ray Right(this Ray ray)
-        => ray with { Loc = new Point(ray.Loc.X + 1, ray.Loc.Y), Dir = Dir.Right };
+        => ray with { Loc = ray.Loc with { X = ray.Loc.X + 1 }, Dir = Dir.Right };
 }
