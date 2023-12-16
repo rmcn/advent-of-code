@@ -25,7 +25,7 @@ public class Day12 : Solution
 
     public override Answer One(string input)
     {
-        Lookup = null; // Don't need memoization for part 1
+        Lookup.Clear(); // Don't need memoization for part 1
 
         var sw = Stopwatch.StartNew();
 
@@ -45,13 +45,10 @@ public class Day12 : Solution
 
     ulong CountValid(string springs, int[] brokenRunLengths, int brokenRunIndex)
     {
-        if (Lookup != null)
+        var key = springs + ":" + brokenRunIndex;
+        if (Lookup.ContainsKey(key))
         {
-            var key = springs + ":" + brokenRunIndex;
-            if (Lookup.ContainsKey(key))
-            {
-                return Lookup[key];
-            }
+            return Lookup[key];
         }
 
         if (brokenRunIndex == brokenRunLengths.Length)
@@ -116,7 +113,7 @@ public class Day12 : Solution
         return springs[brokenCount] != '#';
     }
 
-    static Dictionary<string, ulong> Lookup = null;
+    static Dictionary<string, ulong> Lookup = new();
 
     public override Answer Two(string input)
     {
