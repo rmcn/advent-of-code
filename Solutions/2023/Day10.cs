@@ -1,9 +1,7 @@
 ﻿
-using System.Linq.Expressions;
+using System.Drawing;
 
 namespace AdventOfCode.Year2023;
-
-
 
 public class Day10 : Solution
 {
@@ -14,15 +12,15 @@ SJ.L7
 LJ...";
 
     // Top left is 0, 0, y increases downwards
-    Dictionary<char, (int x, int y)[]> tiles = new Dictionary<char, (int x, int y)[]>
+    Dictionary<char, Point[]> tiles = new Dictionary<char, Point[]>
     {
-        {'.', new (int x, int y)[] {}},
-        {'|', new (int x, int y)[] {(0, -1), (0, 1)}},
-        {'-', new (int x, int y)[] {(-1, 0), (1, 0)}},
-        {'J', new (int x, int y)[] {(0, -1), (-1, 0)}},
-        {'L', new (int x, int y)[] {(0, -1), (1, 0)}},
-        {'F', new (int x, int y)[] {(0, 1), (1, 0)}},
-        {'7', new (int x, int y)[] {(0, 1), (-1, 0)}},
+        {'.', new Point[] {}},
+        {'|', new Point[] {new(0, -1), new(0, 1)}},
+        {'-', new Point[] {new(-1, 0), new(1, 0)}},
+        {'J', new Point[] {new(0, -1), new(-1, 0)}},
+        {'L', new Point[] {new(0, -1), new(1, 0)}},
+        {'F', new Point[] {new(0, 1), new(1, 0)}},
+        {'7', new Point[] {new(0, 1), new(-1, 0)}},
     };
 
     public override Answer One(string input)
@@ -31,14 +29,14 @@ LJ...";
         return FindLoop(grid).Count() / 2;
     }
 
-    Dictionary<(int x, int y), char> FindLoop(Dictionary<(int x, int y), char> grid)
+    Dictionary<Point, char> FindLoop(Dictionary<Point, char> grid)
     {
         var start = grid.Where(e => e.Value == 'S').Select(e => e.Key).Single();
 
-        foreach (var startDir in new (int x, int y)[] { (0, 1), (0, -1), (1, 0), (-1, 0) })
+        foreach (var startDir in new Point[] { new(0, 1), new(0, -1), new(1, 0), new(-1, 0) })
         {
-            var loop = new Dictionary<(int x, int y), char>();
-            var current = (x: start.x + startDir.x, y: start.y + startDir.y);
+            var loop = new Dictionary<Point, char>();
+            var current = new Point(start.X + startDir.X, start.Y + startDir.Y);
             LogEx($"Start {current}");
             var prev = start;
 
@@ -63,7 +61,7 @@ LJ...";
                 if (current == start)
                 {
                     // work out what start is?!
-                    var lastStep = (x: prev.x - current.x, y: prev.y - current.y);
+                    var lastStep = new Point(prev.X - current.X, prev.Y - current.Y);
                     var startTile = tiles.Single(t => t.Value.Contains(startDir) && t.Value.Contains(lastStep)).Key;
                     LogEx($"Start tile is {startTile}");
                     loop.Add(current, startTile);
@@ -74,15 +72,15 @@ LJ...";
         throw new Exception("No loop");
     }
 
-    private (int x, int y)[] Exits((int x, int y) from, (int x, int y) current, char currentTile)
+    private Point[] Exits(Point from, Point current, char currentTile)
     {
         var dirs = tiles[currentTile];
-        var exits = dirs.Select(d => (x: current.x + d.x, y: current.y + d.y)).ToArray();
+        var exits = dirs.Select(d => new Point(current.X + d.X, current.Y + d.Y)).ToArray();
         if (exits.Any(e => e == from))
         {
             return exits.Where(e => e != from).ToArray();
         }
-        return new (int x, int y)[] { };
+        return new Point[] { };
     }
 
     enum Loc { Outside, InsideBelow, InsideAbove, Inside };
@@ -103,7 +101,7 @@ LJ...";
             var loc = Loc.Outside;
             for (int x = 0; x < width; x++)
             {
-                var pos = (x: x, y: y);
+                var pos = new Point(x, y);
                 var tile = loop.GetValueOrDefault(pos, '.');
                 if (tile == '.' && loc != Loc.Outside)
                     t++;
@@ -156,16 +154,16 @@ LJ...";
         return t;
     }
 
-    private static Dictionary<(int x, int y), char> ParseGrid(string input)
+    private static Dictionary<Point, char> ParseGrid(string input)
     {
-        Dictionary<(int x, int y), char> grid = new();
+        Dictionary<Point, char> grid = new();
         int y = 0;
         foreach (var line in input.Lines().Where(IsNotBlank))
         {
             int x = 0;
             foreach (var c in line.Trim())
             {
-                grid.Add((x, y), c);
+                grid.Add(new(x, y), c);
                 x++;
             }
             y++;
