@@ -25,13 +25,13 @@ LJ...";
 
     public override Answer One(string input)
     {
-        var grid = ParseGrid(input);
+        var grid = Grid.Parse(input, '.');
         return FindLoop(grid).Count() / 2;
     }
 
-    Dictionary<Point, char> FindLoop(Dictionary<Point, char> grid)
+    Dictionary<Point, char> FindLoop(Grid grid)
     {
-        var start = grid.Where(e => e.Value == 'S').Select(e => e.Key).Single();
+        var start = grid.Values.Where(e => e.Value == 'S').Select(e => e.Key).Single();
 
         foreach (var startDir in new Point[] { new(0, 1), new(0, -1), new(1, 0), new(-1, 0) })
         {
@@ -43,7 +43,7 @@ LJ...";
             int steps = 1;
             while (true)
             {
-                var currentTile = grid.GetValueOrDefault(current, '.');
+                var currentTile = grid[current];
 
                 loop.Add(current, currentTile);
 
@@ -87,7 +87,7 @@ LJ...";
 
     public override Answer Two(string input)
     {
-        var grid = ParseGrid(input);
+        var grid = Grid.Parse(input, '.');
 
         var loop = FindLoop(grid);
 
@@ -152,23 +152,5 @@ LJ...";
         }
 
         return t;
-    }
-
-    private static Dictionary<Point, char> ParseGrid(string input)
-    {
-        Dictionary<Point, char> grid = new();
-        int y = 0;
-        foreach (var line in input.Lines().Where(IsNotBlank))
-        {
-            int x = 0;
-            foreach (var c in line.Trim())
-            {
-                grid.Add(new(x, y), c);
-                x++;
-            }
-            y++;
-        }
-
-        return grid;
     }
 }
