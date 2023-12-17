@@ -2,16 +2,25 @@
 
 namespace AdventOfCode;
 
-public class Grid
+public class Grid : Grid<char>
 {
-    private readonly char _default;
+    private Grid(string input, char defaultValue) : base (input, c => c, defaultValue)
+    {
+    }
 
-    public Dictionary<Point, char> Values { get; } = new();
+    public static Grid Parse(string input, char defaultValue) => new Grid(input, defaultValue);
+}
+
+public class Grid<T>
+{
+    private readonly T _default;
+
+    public Dictionary<Point, T> Cells { get; } = new();
 
     public int Width { get; }
     public int Height { get; }
 
-    private Grid(string input, char defaultValue)
+    protected Grid(string input, Func<char, T> parse, T defaultValue)
     {
         var rows = input.Lines().Where(IsNotBlank).ToList();
 
@@ -22,10 +31,8 @@ public class Grid
 
         foreach (var (s, y) in rows.Select((s, y) => (s, y)))
             foreach (var (c, x) in s.ToCharArray().Select((c, x) => (c, x)))
-                Values[new Point(x, y)] = c;
+                Cells[new Point(x, y)] = parse(c);
     }
 
-    public char this[Point p] => Values.GetValueOrDefault(p, _default);
-
-    public static Grid Parse(string input, char defaultValue) => new Grid(input, defaultValue);
+    public T this[Point p] => Cells.GetValueOrDefault(p, _default);
 }

@@ -31,7 +31,7 @@ LJ...";
 
     Dictionary<Point, char> FindLoop(Grid grid)
     {
-        var start = grid.Values.Where(e => e.Value == 'S').Select(e => e.Key).Single();
+        var start = grid.Cells.Where(e => e.Value == 'S').Select(e => e.Key).Single();
 
         foreach (var startDir in new Point[] { new(0, 1), new(0, -1), new(1, 0), new(-1, 0) })
         {
