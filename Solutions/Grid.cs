@@ -4,7 +4,7 @@ namespace AdventOfCode;
 
 public class Grid : Grid<char>
 {
-    private Grid(string input, char defaultValue) : base (input, c => c, defaultValue)
+    private Grid(string input, char defaultValue) : base(input, c => c, defaultValue)
     {
     }
 

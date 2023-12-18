@@ -9,10 +9,10 @@ public class Day17 : Solution
 
     class State
     {
-        public Ray Ray { get; set; } = new Ray(new Point(0,0), Dir.Right);
+        public Ray Ray { get; set; } = new Ray(new Point(0, 0), Dir.Right);
         public int Steps { get; set; }
         public int Loss { get; set; }
-        public List<Ray> Route { get; set; } =  new();
+        public List<Ray> Route { get; set; } = new();
 
         public State? Next(Grid<int> g)
         {
@@ -84,12 +84,12 @@ public class Day17 : Solution
         var g = Grid.Parse(input, c => int.Parse(c.ToString()), -1);
 
         var states = new PriorityQueue<State, int>();
-        var firstState = new State { Ray = new Ray(new Point(0,0), Dir.Right), Loss = 0, Steps = 1 };
+        var firstState = new State { Ray = new Ray(new Point(0, 0), Dir.Right), Loss = 0, Steps = 1 };
         states.Enqueue(firstState, firstState.Loss);
 
         var seen = new HashSet<Ray>();
 
-        while(states.Count > 0)
+        while (states.Count > 0)
         {
             //var x = states.UnorderedItems.OrderBy(v => v.Priority).Select(v => v.Element).Select(s => $"({s.Ray.Loc.X},{s.Ray.Loc.Y}):{s.Ray.Dir}={s.Loss}");
             //LogEx("\n\n" + string.Join(" ", x));
@@ -99,13 +99,14 @@ public class Day17 : Solution
 
 
 
-            if (state.Ray.Loc.X == g.Width - 1 && state.Ray.Loc.Y == g.Height -1)
+            if (state.Ray.Loc.X == g.Width - 1 && state.Ray.Loc.Y == g.Height - 1)
             {
                 //LogEx(string.Join('\n', state.Route));
                 return state.Loss;
             }
 
-            if (state.Steps < 3) {
+            if (state.Steps < 3)
+            {
                 var next = state.Next(g);
                 if (next != null && !seen.Contains(next.Ray)) states.Enqueue(next, next.Loss);
             }
