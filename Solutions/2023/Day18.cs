@@ -11,29 +11,13 @@ public class Day18 : Solution
         #   #
         #   #
         #####
-
-        #####
-        #   #
-        #   #
-        # ###
-        # #
-        ###
-
-            ###
-          ### #
-          #   #
-          ### #
-            # #
-          ### #
-          #   #
-          #####
-    */
     public override string Example => @"R 2
 D 2
 R 2
 D 3
 L 4
 U 5";
+    */
 
     record Step(char Dir, int Dist);
 
@@ -41,6 +25,12 @@ U 5";
     {
         var p = s.Split(' ');
         return new Step(p[0][0], p[1].Int());
+    }
+
+    Step ParseTwo(string s)
+    {
+        var p = s.Replace(")", "").Split('#')[1];
+        return new Step("RDLU"[p[5] - '0'], Convert.ToInt32(p[..5], 16));
     }
 
     public override Answer One(string input)
@@ -94,6 +84,66 @@ U 5";
     record Line(int X, int Y1, int Y2);
 
     public override Answer Two(string input)
+    {
+        var steps = input
+            .Lines()
+            .Where(IsNotBlank)
+            .Select(ParseTwo)
+            .ToList();
+
+        var points = new List<Point>();
+
+        var current = new Point(0, 0);
+        points.Add(current);
+
+        for (int i = 0; i < steps.Count; i++)
+        {
+            var step = steps[i];
+            var next = i == steps.Count - 1 ? steps[0] : steps[i + 1];
+            var prev = i == 0 ? steps[steps.Count - 1] : steps[i - 1];
+            var dist = step.Dist;
+            if (step.Dir == 'U')
+            {
+                if (next.Dir != prev.Dir) dist += next.Dir == 'R' ? 1 : -1;
+                current.Y -= dist;
+                points.Add(current);
+            }
+            else if (step.Dir == 'D')
+            {
+                if (next.Dir != prev.Dir) dist += next.Dir == 'L' ? 1 : -1;
+                current.Y += dist;
+                points.Add(current);
+            }
+            else if (step.Dir == 'L')
+            {
+                if (next.Dir != prev.Dir) dist += next.Dir == 'U' ? 1 : -1;
+                current.X -= dist;
+                points.Add(current);
+            }
+            else if (step.Dir == 'R')
+            {
+                if (next.Dir != prev.Dir) dist += next.Dir == 'D' ? 1 : -1;
+                current.X += dist;
+                points.Add(current);
+            }
+            else
+                throw new Exception();
+        }
+
+        LogEx(string.Join(", ", points));
+
+        return ShoelaceArea(points);
+    }
+
+    long ShoelaceArea(List<Point> points) =>
+        Abs(
+            points
+                .Zip(points.Skip(1).Concat(new[] { points[0] }))
+                .Select(p => ((long)p.First.X) * p.Second.Y - ((long)p.Second.X) * p.First.Y)
+                .Sum()
+        ) / 2;
+
+    public Answer TwoAlt(string input)
     {
         var steps = input
             .Lines()
