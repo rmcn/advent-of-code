@@ -107,19 +107,27 @@ U 5";
         foreach (var step in steps)
         {
             var dist = step.Dist;
-            if (step.Dir == 'U') {
+            if (step.Dir == 'U')
+            {
                 var prev = current;
                 while (dist-- != 0) { current.Y -= 1; }
                 lines.Add(new Line(current.X, Min(prev.Y, current.Y), Max(prev.Y, current.Y)));
-            } else if (step.Dir == 'D') {
+            }
+            else if (step.Dir == 'D')
+            {
                 var prev = current;
                 while (dist-- != 0) { current.Y += 1; }
                 lines.Add(new Line(current.X, Min(prev.Y, current.Y), Max(prev.Y, current.Y)));
-            } else if (step.Dir == 'L') {
+            }
+            else if (step.Dir == 'L')
+            {
                 while (dist-- != 0) { current.X -= 1; }
-            } else if (step.Dir == 'R') {
+            }
+            else if (step.Dir == 'R')
+            {
                 while (dist-- != 0) { current.X += 1; }
-            } else
+            }
+            else
                 throw new Exception();
         }
 
@@ -133,7 +141,7 @@ U 5";
         total += front.Select(l => l.Y2 - l.Y1 + 1).Sum();
         for (int i = 1; i < xes.Count; i++)
         {
-            var xs = xes[i-1];
+            var xs = xes[i - 1];
             var xe = xes[i];
             long width = xe - xs - 1;
 
@@ -179,7 +187,7 @@ U 5";
                     {
                         var shortened = new Line(xe, Min(line.Y1, reduce[0].Y1), Max(line.Y1, reduce[0].Y1));
                         reducedBy += line.Y2 - shortened.Y2;
-                        front.Add(shortened);                        
+                        front.Add(shortened);
                     }
                 }
                 else if (split.Count > 0)
