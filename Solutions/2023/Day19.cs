@@ -20,6 +20,7 @@ public class Day19 : Solution
             {
                 Dest = s;
                 Op = "";
+                Prop = "";
             }
             else
             {
@@ -65,7 +66,7 @@ public class Day19 : Solution
 
             while (wfName != "A" && wfName != "R")
             {
-                var rules = wfs[wfName];
+                var rules = wfs[wfName!];
                 wfName = rules.Select(r => r.Next(part)).First(d => d != null);
             }
 
