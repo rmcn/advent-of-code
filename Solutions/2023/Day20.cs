@@ -46,18 +46,14 @@ public class Day20 : Solution
                     if (allHigh)
                     {
                         SentLowOn.Enqueue(presses);
-                        if (SentLowOn.Count > 15)
-                        {
+                        if (SentLowOn.Count > 5)
                             SentLowOn.Dequeue();
-                        }
                     }
                     else
                     {
                         SentHightOn.Enqueue(presses);
-                        if (SentHightOn.Count > 15)
-                        {
+                        if (SentHightOn.Count > 5)
                             SentHightOn.Dequeue();
-                        }
                     }
 
                     return Outputs.Select(s => new Pulse(Name, s, allHigh ? PulseType.Low : PulseType.High)).ToList();
@@ -153,6 +149,9 @@ public class Day20 : Solution
             Log($"{m.Name} sent last {m.SentHightOn.Count} highs on [{string.Join(", ", m.SentHightOn)}]");
         }
 
-        return 0;
+        var finalConjunction = modules.Values.Single(m => m.Outputs.Contains("rx"));
+        var inputConjunctions = modules.Values.Where(m => m.Outputs.Contains(finalConjunction.Name)).ToList();
+
+        return Lcm(inputConjunctions.Select(m => (ulong)m.SentHightOn.First()).ToArray());
     }
 }
