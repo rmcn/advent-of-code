@@ -16,9 +16,20 @@ public class Day20 : Solution
         public string Name { get; set; }
         public List<string> Outputs { get; set; }
         public bool IsOn { get; set; }
-        public Dictionary<string, PulseType> Last {get; set;} = new();
+        public Dictionary<string, PulseType> Last { get; set; } = new();
 
-        public List<Pulse> Process(Pulse p)
+        public Queue<int> SentLowOn { get; set; } = new();
+        public Queue<int> SentHightOn { get; set; } = new();
+
+        public Module(string s)
+        {
+            var p = s.Split(" -> ");
+            Type = p[0][0];
+            Name = p[0][0] == 'b' ? p[0] : p[0].Substring(1);
+            Outputs = p[1].Split(',').Select(o => o.Trim()).ToList();
+        }
+
+        public List<Pulse> Process(Pulse p, int presses)
         {
             switch (Type)
             {
@@ -31,44 +42,42 @@ public class Day20 : Solution
                     return Outputs.Select(s => new Pulse(Name, s, IsOn ? PulseType.High : PulseType.Low)).ToList();
                 case '&':
                     Last[p.Source] = p.Type;
-                    var allHight = Last.Values.All(p => p == PulseType.High);
-                    return Outputs.Select(s => new Pulse(Name, s, allHight ? PulseType.Low : PulseType.High)).ToList();
+                    var allHigh = Last.Values.All(p => p == PulseType.High);
+                    if (allHigh)
+                    {
+                        SentLowOn.Enqueue(presses);
+                        if (SentLowOn.Count > 15)
+                        {
+                            SentLowOn.Dequeue();
+                        }
+                    }
+                    else
+                    {
+                        SentHightOn.Enqueue(presses);
+                        if (SentHightOn.Count > 15)
+                        {
+                            SentHightOn.Dequeue();
+                        }
+                    }
+
+                    return Outputs.Select(s => new Pulse(Name, s, allHigh ? PulseType.Low : PulseType.High)).ToList();
                 default: throw new Exception();
             }
         }
-    }
-
-    Module ParseModule(string s)
-    {
-        var p = s.Split(" -> ");
-        return new Module
-        {
-            Type = p[0][0],
-            Name = p[0][0] == 'b' ? p[0] : p[0].Substring(1),
-            Outputs = p[1].Split(',').Select(o => o.Trim()).ToList()
-        };
     }
 
     record Pulse(string Source, string Dest, PulseType Type);
 
     public override Answer One(string input)
     {
-        int t = 0;
-
-        var modules = input.Lines().Where(IsNotBlank).Select(ParseModule).ToDictionary(m => m.Name, m => m);
-
-        foreach (var mod in modules.Values)
-        {
-            var inputs = modules.Select(kvp => kvp.Value).Where(v => v.Outputs.Contains(mod.Name)).Select(v => v.Name).ToList();
-            mod.Last = inputs.ToDictionary(k => k, k => PulseType.Low);
-        }
+        var modules = ParseModules(input);
 
         var pulses = new Queue<Pulse>();
 
         long highCount = 0;
         long lowCount = 0;
 
-        for (int i =0; i < 1000; i++)
+        for (int i = 0; i < 1000; i++)
         {
             pulses.Enqueue(new Pulse("button", "broadcaster", PulseType.Low));
 
@@ -83,8 +92,8 @@ public class Day20 : Solution
 
                 if (modules.ContainsKey(pulse.Dest))
                 {
-                    var results = modules[pulse.Dest].Process(pulse);
-                    foreach(var result in results)
+                    var results = modules[pulse.Dest].Process(pulse, i + 1);
+                    foreach (var result in results)
                     {
                         pulses.Enqueue(result);
                     }
@@ -95,8 +104,55 @@ public class Day20 : Solution
         return highCount * lowCount;
     }
 
+    private Dictionary<string, Module> ParseModules(string input)
+    {
+        var modules = input.Lines().Where(IsNotBlank).Select(s => new Module(s)).ToDictionary(m => m.Name, m => m);
+
+        foreach (var mod in modules.Values)
+        {
+            var inputs = modules.Select(kvp => kvp.Value).Where(v => v.Outputs.Contains(mod.Name)).Select(v => v.Name).ToList();
+            mod.Last = inputs.ToDictionary(k => k, k => PulseType.Low);
+        }
+
+        return modules;
+    }
+
     public override Answer Two(string input)
     {
+        if (input == Example)
+            return 0;
+
+        var modules = ParseModules(input);
+
+        var pulses = new Queue<Pulse>();
+
+        var presses = 0;
+        while (presses < 20000)
+        {
+            pulses.Enqueue(new Pulse("button", "broadcaster", PulseType.Low));
+            presses++;
+
+            while (pulses.Count > 0)
+            {
+                var pulse = pulses.Dequeue();
+
+                if (modules.ContainsKey(pulse.Dest))
+                {
+                    var results = modules[pulse.Dest].Process(pulse, presses);
+                    foreach (var result in results)
+                    {
+                        pulses.Enqueue(result);
+                    }
+                }
+            }
+        }
+
+        foreach (var m in modules.Values.Where(m => m.Type == '&').OrderBy(m => m.Name))
+        {
+            Log($"{m.Name} sent last {m.SentLowOn.Count} lows on [{string.Join(", ", m.SentLowOn)}]");
+            Log($"{m.Name} sent last {m.SentHightOn.Count} highs on [{string.Join(", ", m.SentHightOn)}]");
+        }
+
         return 0;
     }
 }
