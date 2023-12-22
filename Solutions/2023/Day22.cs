@@ -13,14 +13,21 @@ public class Day22 : Solution
         {
             A = a;
             B = b;
+
+            MinX = Min(A.X, B.X);
+            MaxX = Max(A.X, B.X);
+            MinY = Min(A.Y, B.Y);
+            MaxY = Max(A.Y, B.Y);
+            MinZ = Min(A.Z, B.Z);
+            MaxZ = Max(A.Z, B.Z);
         }
 
-        public int MinX => Min(A.X, B.X);
-        public int MaxX => Max(A.X, B.X);
-        public int MinY => Min(A.Y, B.Y);
-        public int MaxY => Max(A.Y, B.Y);
-        public int MinZ => Min(A.Z, B.Z);
-        public int MaxZ => Max(A.Z, B.Z);
+        public int MinX { get; set; }
+        public int MaxX { get; set; }
+        public int MinY { get; set; }
+        public int MaxY { get; set; }
+        public int MinZ { get; set; }
+        public int MaxZ { get; set; }
 
         public bool Contains(V3 p)
         {
@@ -52,6 +59,8 @@ public class Day22 : Solution
         {
             A = A with { Z = A.Z - 1 };
             B = B with { Z = B.Z - 1 };
+            MaxZ--;
+            MinZ--;
         }
     }
 
@@ -65,7 +74,6 @@ public class Day22 : Solution
 
     public override Answer One(string input)
     {
-        return 0;
         var bricks = input.Lines().Where(IsNotBlank).Select(ParseBrick).ToList();
 
         var floor = new Brick(
@@ -77,7 +85,7 @@ public class Day22 : Solution
 
         foreach (var brick in bricks.OrderBy(b => b.MinZ).Skip(1))
         {
-            while (bricks.Where(b => b != brick).All(b => brick.CanFallRealativeTo(b)))
+            while (bricks.Where(b => b != brick).Where(b => b.MaxZ < brick.MinZ).All(b => brick.CanFallRealativeTo(b)))
             {
                 brick.FallOne();
             }
@@ -106,20 +114,20 @@ public class Day22 : Solution
         return false;
     }
 
-    int CountFallWithout(List<Brick> bricks)
+    int CountFallingBricks(List<Brick> bricks)
     {
-        int c = 0;
+        int count = 0;
         foreach (var brick in bricks.OrderBy(b => b.MinZ).Skip(1))
         {
-            bool fell = false;
-            while (bricks.Where(b => b != brick).All(b => brick.CanFallRealativeTo(b)))
+            bool didFall = false;
+            while (bricks.Where(b => b != brick).Where(b => b.MaxZ < brick.MinZ).All(b => brick.CanFallRealativeTo(b)))
             {
                 brick.FallOne();
-                fell = true;
+                didFall = true;
             }
-            if (fell) c++;
+            if (didFall) count++;
         }
-        return c;
+        return count;
     }
 
     public override Answer Two(string input)
@@ -146,7 +154,7 @@ public class Day22 : Solution
         foreach (var brick in bricks.OrderBy(b => b.MinZ).Skip(1))
         {
             var bricksWithout = bricks.Where(b => b != brick).Select(b => new Brick(b.A, b.B)).ToList();
-            t += CountFallWithout(bricksWithout);
+            t += CountFallingBricks(bricksWithout);
             Console.Write(".");
         }
 
