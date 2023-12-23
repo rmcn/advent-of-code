@@ -66,11 +66,54 @@ public class Day17 : Solution
                 }
             }
         }
-        return 0;
+        return 0;   
     }
 
     public override Answer Two(string input)
     {
+        var g = Grid.Parse(input, c => int.Parse(c.ToString()), -1);
+
+        var frontier = new PriorityQueue<State, int>();
+        var start = new State(new Point(0, 0), Face.East, 0);
+        frontier.Enqueue(start, 0);
+
+        var costSoFar = new Dictionary<State, int>
+        {
+            [start] = 0
+        };
+
+        while (frontier.Count > 0)
+        {
+            var current = frontier.Dequeue();
+
+            if (current.Loc.X == g.Width - 1 && current.Loc.Y == g.Height - 1)
+                return costSoFar[current];
+
+            var successors = new List<State>
+            {
+                Forward(current)
+            };
+
+            if (current.Steps >= 4)
+            {
+                successors.Add(Left(current));
+                successors.Add(Right(current));
+            }
+            
+            successors = successors.Where(s => s.Steps <= 10 && g[s.Loc] != -1).ToList();
+
+            foreach (var next in successors)
+            {
+                var newCost = costSoFar[current] + g[next.Loc];
+
+                if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next])
+                {
+                    costSoFar[next] = newCost;
+                    var priority = newCost + Abs(g.Width - 1 - next.Loc.X) + Abs(g.Height - 1 - next.Loc.Y);
+                    frontier.Enqueue(next, priority);
+                }
+            }
+        }
         return 0;
-    }
+     }
 }
