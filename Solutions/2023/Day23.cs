@@ -25,8 +25,6 @@ public class Day23 : Solution
 
     public override Answer One(string input)
     {
-        return 0;
-
         var g = Grid.Parse(input, '#');
 
         var start = new Point(1, 0);
@@ -79,7 +77,7 @@ public class Day23 : Solution
         return routes.Max(r => r.Steps);
     }
 
-    record Edge(Point Dest, int Steps);
+    record Edge(int Dest, int Steps);
 
     public override Answer Two(string input)
     {
@@ -88,6 +86,8 @@ public class Day23 : Solution
         var start = new Point(1, 0);
         var end = new Point(g.Width - 2, g.Height - 1);
 
+        // Identify all junctions (path cells with more than two neighbour paths)
+        // These will be our graph vertices
         var junctions = new List<Point>() { start, end };
 
         foreach (var p in g.Cells.Where(c => c.Value != '#').Select(c => c.Key))
@@ -98,13 +98,16 @@ public class Day23 : Solution
                 junctions.Add(p);
         }
 
-        var graph = new Dictionary<Point, List<Edge>>();
+        var graph = new List<List<Edge>>();
 
-        foreach (var junction in junctions)
+        // For each junction, work out what other junctions are reachable and how many steps they are away
+        for (int i = 0; i < junctions.Count; i++)
         {
+            var junction = junctions[i];
             var edges = new List<Edge>();
-            var seen = new HashSet<Point> { junction };
 
+            // Use flood fill from junction to find neighbour junctions (and distance)
+            var seen = new HashSet<Point> { junction };
             var frontier = new Queue<(Point p, int steps)>();
             frontier.Enqueue((junction, 0));
 
@@ -117,7 +120,7 @@ public class Day23 : Solution
                 {
                     if (junctions.Contains(n))
                     {
-                        edges.Add(new Edge(n, steps + 1));
+                        edges.Add(new Edge(junctions.IndexOf(n), steps + 1));
                     }
                     else
                     {
@@ -127,42 +130,38 @@ public class Day23 : Solution
                 }
             }
 
-            graph.Add(junction, edges);
+            graph.Add(edges);
             //Log($"{junction} [{string.Join(", ", edges)}]");
         }
 
+        // Do a depth-first search from start (index 0), recording total steps in routes everytime we
+        // reach end (index 0)
+        bool[] visited = new bool[junctions.Count];
+        visited[0] = true;
+        var routes = new List<int>();
 
-        var front = new Queue<State>();
-        front.Enqueue(new State(start, 0, new HashSet<Point>()));
+        Dfs(graph, 0, 0, visited, routes);
 
-        var routes = new List<State>();
+        return routes.Max();
+    }
 
-        while (front.Count > 0)
+    private void Dfs(List<List<Edge>> graph, int current, int steps, bool[] visited, List<int> routes)
+    {
+        if (current == 1) // 1 is index of end
         {
-            var current = front.Dequeue();
-
-            if (current.Loc == end)
-            {
-                routes.Add(current);
-                continue;
-            }
-
-            foreach (var edge in graph[current.Loc].Where(e => !current.Visited.Contains(e.Dest)))
-            {
-                front.Enqueue(new State(edge.Dest, current.Steps + edge.Steps, current.Visited));
-            }
+            routes.Add(steps); // record how many steps to reach the end
+            return;
         }
 
-        /*
-        var longest = routes.OrderByDescending(r => r.Steps).First();
+        foreach (var edge in graph[current])
+        {
+            if (visited[edge.Dest])
+                continue;
 
-        for (int y = 0; y < g.Height; y++){
-            for (int x = 0; x < g.Height; x++)
-                Console.Write(longest.Visited.Contains(new Point(x,y)) ? 'X' : '.');
-            Console.WriteLine();
-        }*/
-
-        return routes.Max(r => r.Steps);
+            visited[edge.Dest] = true;
+            Dfs(graph, edge.Dest, steps + edge.Steps, visited, routes);
+            visited[edge.Dest] = false;
+        }
     }
 
     private static Point[] Neighbours(Point p)
