@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode;
@@ -16,4 +17,5 @@ public static class Extensions
     public static SubmitAnswer Submit(this object v) => new(v);
     public static T Product<T>(this IEnumerable<T> values) where T : INumber<T>
         => values.Aggregate(T.One, (a, b) => a * b);
+    public static Point Add(this Point a, Point b) => new(a.X + b.X, a.Y + b.Y);
 }

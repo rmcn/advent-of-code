@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Runtime;
 
 namespace AdventOfCode.Year2023;
 
@@ -7,117 +6,66 @@ public class Day17 : Solution
 {
     public override string Example => @"";
 
-    class State
+    public enum Face { North, East, South, West };
+
+    public static Point[] Delta = new []
     {
-        public Ray Ray { get; set; } = new Ray(new Point(0, 0), Dir.Right);
-        public int Steps { get; set; }
-        public int Loss { get; set; }
-        public List<Ray> Route { get; set; } = new();
+        new Point(0, -1),
+        new Point(1, 0),
+        new Point(0, +1),
+        new Point(-1, 0)
+    };
 
-        public State? Next(Grid<int> g)
+    public record State(Point Loc, Face Dir, int Steps);
+
+    public State Move(State s, Face dir, int steps)
+    {
+        return s with 
         {
-            var state = new State
-            {
-                Steps = Steps + 1,
-                Loss = Loss,
-                Ray = Ray.Next()
-            };
-
-            var loss = g[state.Ray.Loc];
-            state.Loss += loss;
-            //state.Route.AddRange(Route);
-            //state.Route.Add(state.Ray);
-            return loss == -1 ? null : state;
-        }
-
-        public State? Left(Grid<int> g)
-        {
-            var state = new State
-            {
-                Steps = 1,
-                Loss = Loss
-            };
-
-            if (Ray.Dir == Dir.Up)
-                state.Ray = Ray.Left();
-            else if (Ray.Dir == Dir.Left)
-                state.Ray = Ray.Down();
-            else if (Ray.Dir == Dir.Down)
-                state.Ray = Ray.Right();
-            else if (Ray.Dir == Dir.Right)
-                state.Ray = Ray.Up();
-
-            var loss = g[state.Ray.Loc];
-            state.Loss += loss;
-            //state.Route.AddRange(Route);
-            //state.Route.Add(state.Ray);
-            return loss == -1 ? null : state;
-        }
-
-        public State? Right(Grid<int> g)
-        {
-            var state = new State
-            {
-                Steps = 1,
-                Loss = Loss
-            };
-
-            if (Ray.Dir == Dir.Up)
-                state.Ray = Ray.Right();
-            else if (Ray.Dir == Dir.Left)
-                state.Ray = Ray.Up();
-            else if (Ray.Dir == Dir.Down)
-                state.Ray = Ray.Left();
-            else if (Ray.Dir == Dir.Right)
-                state.Ray = Ray.Down();
-
-            var loss = g[state.Ray.Loc];
-            state.Loss += loss;
-            state.Route.AddRange(Route);
-            state.Route.Add(state.Ray);
-            return loss == -1 ? null : state;
-        }
+            Dir = dir,
+            Loc = s.Loc.Add(Delta[(int)dir]),
+            Steps = steps
+        };
     }
+
+    public State Left(State s) => Move(s, s.Dir == Face.North ? Face.West : s.Dir - 1, 1);
+    public State Right(State s) => Move(s, s.Dir == Face.West ? Face.North : s.Dir + 1, 1);
+    public State Forward(State s) => Move(s, s.Dir, s.Steps + 1);
 
     public override Answer One(string input)
     {
         var g = Grid.Parse(input, c => int.Parse(c.ToString()), -1);
 
-        var states = new PriorityQueue<State, int>();
-        var firstState = new State { Ray = new Ray(new Point(0, 0), Dir.Right), Loss = 0, Steps = 1 };
-        states.Enqueue(firstState, firstState.Loss);
+        var frontier = new PriorityQueue<State, int>();
+        var start = new State(new Point(0, 0), Face.East, 0);
+        frontier.Enqueue(start, 0);
 
-        var seen = new HashSet<Ray>();
-
-        while (states.Count > 0)
+        var costSoFar = new Dictionary<State, int>
         {
-            //var x = states.UnorderedItems.OrderBy(v => v.Priority).Select(v => v.Element).Select(s => $"({s.Ray.Loc.X},{s.Ray.Loc.Y}):{s.Ray.Dir}={s.Loss}");
-            //LogEx("\n\n" + string.Join(" ", x));
+            [start] = 0
+        };
 
-            var state = states.Dequeue();
-            seen.Add(state.Ray);
+        while (frontier.Count > 0)
+        {
+            var current = frontier.Dequeue();
 
+            if (current.Loc.X == g.Width - 1 && current.Loc.Y == g.Height - 1)
+                return costSoFar[current];
 
+            var successors = new[] { Left(current), Right(current), Forward(current) }.Where(s => s.Steps <= 3 && g[s.Loc] != -1).ToList();
 
-            if (state.Ray.Loc.X == g.Width - 1 && state.Ray.Loc.Y == g.Height - 1)
+            foreach (var next in successors)
             {
-                //LogEx(string.Join('\n', state.Route));
-                return state.Loss;
+                var newCost = costSoFar[current] + g[next.Loc];
+
+                if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next])
+                {
+                    costSoFar[next] = newCost;
+                    var priority = newCost + Abs(g.Width - 1 - next.Loc.X) + Abs(g.Height - 1 - next.Loc.Y);
+                    frontier.Enqueue(next, priority);
+                }
             }
-
-            if (state.Steps < 3)
-            {
-                var next = state.Next(g);
-                if (next != null && !seen.Contains(next.Ray)) states.Enqueue(next, next.Loss);
-            }
-
-            var left = state.Left(g);
-            if (left != null && !seen.Contains(left.Ray)) states.Enqueue(left, left.Loss);
-
-            var right = state.Right(g);
-            if (right != null && !seen.Contains(right.Ray)) states.Enqueue(right, right.Loss);
         }
-
         return 0;
     }
 
