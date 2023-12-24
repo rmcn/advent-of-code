@@ -8,7 +8,7 @@ public class Day17 : Solution
 
     public enum Face { North, East, South, West };
 
-    public static Point[] Delta = new []
+    public static Point[] Delta = new[]
     {
         new Point(0, -1),
         new Point(1, 0),
@@ -20,7 +20,7 @@ public class Day17 : Solution
 
     public State Move(State s, Face dir, int steps)
     {
-        return s with 
+        return s with
         {
             Dir = dir,
             Loc = s.Loc.Add(Delta[(int)dir]),
@@ -90,7 +90,7 @@ public class Day17 : Solution
             }
         }
         return 0;
-     }
+    }
 
 
 }

@@ -57,7 +57,7 @@ public class Day23 : Solution
             if (g[left] != '#' && g[left] != '>' && !current.Visited.Contains(left)) candidates.Add(left);
 
             var right = current.Loc with { X = current.Loc.X + 1 };
-            if (g[right] != '#' && g[right] != '<' && !current.Visited.Contains(right)) candidates.Add(right);                
+            if (g[right] != '#' && g[right] != '<' && !current.Visited.Contains(right)) candidates.Add(right);
 
             foreach (var next in candidates)
             {
