@@ -6,8 +6,6 @@ public class Day25 : Solution
 
     public override Answer One(string input)
     {
-        int t = 0;
-
         var graph = new Dictionary<string, List<string>>();
         foreach (var line in input.Lines().Where(IsNotBlank))
         {
@@ -124,8 +122,8 @@ public class Day25 : Solution
         var curr = end;
         while (curr != start)
         {
-            path.Add(curr);
-            curr = cameFrom[curr];
+            path.Add(curr!);
+            curr = cameFrom[curr!];
         }
         path.Add(curr);
         path.Reverse();
