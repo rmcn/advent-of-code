@@ -9,15 +9,28 @@ public class Grid : Grid<char>
     {
     }
 
-    public static Grid Parse(string input, char defaultValue, bool infinite = false)
-        => new Grid(input, defaultValue, infinite);
-    public static Grid<T> Parse<T>(string input, Func<char, T> parse, T defaultValue, bool infinite = false)
-        => new(input, parse, defaultValue, infinite);
+    /// <summary>
+    /// Create a wrap-around infinite grid of characters.
+    /// </summary>
+    public static Grid ParseInfinite(string input)
+        => new Grid(input, '?', infinite: true);
+
+    /// <summary>
+    /// Create a fixed sized grid of characters.
+    /// Any points outside the grid will return the default value.
+    /// </summary>
+    public static Grid ParseFixed(string input, char outOfBoundsValue)
+        => new Grid(input, outOfBoundsValue, infinite: false);
+
+    public static Grid Parse(string input, char outOfBoundsValue, bool infinite = false)
+        => new Grid(input, outOfBoundsValue, infinite);
+    public static Grid<T> Parse<T>(string input, Func<char, T> parse, T outOfBoundsValue, bool infinite = false)
+        => new(input, parse, outOfBoundsValue, infinite);
 }
 
 public class Grid<T>
 {
-    private readonly T _default;
+    private readonly T _outOfBoundsValue;
     private readonly bool _infinite;
 
     public Dictionary<Point, T> Cells { get; } = new();
@@ -25,14 +38,14 @@ public class Grid<T>
     public int Width { get; }
     public int Height { get; }
 
-    public Grid(string input, Func<char, T> parse, T defaultValue, bool infinite)
+    public Grid(string input, Func<char, T> parse, T outOfBoundsValue, bool infinite)
     {
         var rows = input.Lines().Where(IsNotBlank).ToList();
 
         Width = rows.First().Length;
         Height = rows.Count;
 
-        _default = defaultValue;
+        _outOfBoundsValue = outOfBoundsValue;
         _infinite = infinite;
 
         foreach (var (s, y) in rows.Select((s, y) => (s, y)))
@@ -42,7 +55,7 @@ public class Grid<T>
 
     public T this[Point p]
     {
-        get => _infinite ? Cells[Wrap(p)] : Cells.GetValueOrDefault(p, _default);
+        get => _infinite ? Cells[Wrap(p)] : Cells.GetValueOrDefault(p, _outOfBoundsValue);
         set
         {
             if (_infinite)

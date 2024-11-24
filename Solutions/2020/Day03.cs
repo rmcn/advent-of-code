@@ -9,7 +9,7 @@ public class Day03 : Solution
 
     public override Answer One(string input)
     {
-        var g = Grid.Parse(input, '.', infinite: true);
+        var g = Grid.ParseInfinite(input);
 
         return CountTrees(g, new Point(3, 1));
     }
@@ -32,7 +32,7 @@ public class Day03 : Solution
 
     public override Answer Two(string input)
     {
-        var g = Grid.Parse(input, '.', infinite: true);
+        var g = Grid.ParseInfinite(input);
 
         return
             CountTrees(g, new Point(1, 1))
