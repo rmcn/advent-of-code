@@ -22,6 +22,7 @@ static class Advent
     static string InputFor(Solution solution)
     {
         var path = PathFor(solution, "Input");
+        Console.WriteLine($"Reading input {path}");
         if (File.Exists(path))
         {
             return File.ReadAllText(path);
