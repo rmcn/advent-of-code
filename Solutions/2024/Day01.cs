@@ -7,40 +7,17 @@ public class Day01 : Solution
 
     public override Answer One(string input)
     {
-        int t = 0;
+        var l1 = input.Ints().TakeEvery(2).Order();
+        var l2 = input.Ints().Skip(1).TakeEvery(2).Order();
 
-        var k = input.Lines().Where(IsNotBlank).Select((s, i) => s.Ints()).ToList();
-
-        var l1 = k.Select(p => p[0]).OrderBy(v => v).ToList();
-        var l2 = k.Select(p => p[1]).OrderBy(v => v).ToList();
-
-        for (int i = 0; i < l1.Count; i++)
-        {
-            t += Abs(l1[i] - l2[i]);
-        }
-
-        return t;
+        return l1.Zip(l2).Sum(p => Abs(p.First - p.Second));
     }
 
     public override Answer Two(string input)
     {
-        int t = 0;
+        var l1 = input.Ints().TakeEvery(2);
+        var d = input.Ints().Skip(1).TakeEvery(2).CountBy(x => x).ToDictionary();
 
-        var k = input.Lines().Where(IsNotBlank).Select((s, i) => s.Ints()).ToList();
-
-        var l1 = k.Select(p => p[0]).ToList();
-        var l2 = k.Select(p => p[1]).ToList();
-
-        var d = l2.GroupBy(v => v).ToDictionary(v => v.Key, v => v.Count());
-
-        foreach (var v in l1)
-        {
-            if (d.ContainsKey(v))
-            {
-                t += v * d[v];
-            }
-        }
-
-        return t;  
+        return l1.Sum(v => v * d.GetValueOrDefault(v, 0));
     }
 }
