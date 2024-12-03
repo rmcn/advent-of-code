@@ -1,4 +1,5 @@
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -99,14 +100,16 @@ static class Advent
         return example;
     }
 
-    static void Submit(Solution solution, int level, object answer)
+    static void Submit(Solution solution, int level, Func<string, Answer> run, string input)
     {
+        var (answer, ms) = TimeRun(run, input);
+
         var path = PathFor(solution, $"{level}-Solution");
         var submitted = File.Exists(path) && File.ReadAllText(path) == answer.ToString();
 
         var submit = answer is SubmitAnswer;
         var action = !submit ? "View" : submitted ? "Submitted" : "Submitting";
-        Console.WriteLine($"{action} {solution.Year} {solution.Day} {level}: {answer}");
+        Console.WriteLine($"{action} {solution.Year} {solution.Day} {level}: {answer} ({ms:0.0}ms)");
 
         if (!submit || submitted)
         {
@@ -148,14 +151,29 @@ static class Advent
         if (example != "")
         {
             solution.LogEx = Console.WriteLine;
-            Console.WriteLine($"Example 1: {solution.One(example)}");
-            Console.WriteLine($"Example 2: {solution.Two(example)}");
+            RunExample(1, solution.One, example);
+            RunExample(2, solution.Two, example);
             solution.LogEx = (string _) => { };
         }
 
         var input = InputFor(solution);
 
-        Submit(solution, 1, solution.One(input));
-        Submit(solution, 2, solution.Two(input));
+        Submit(solution, 1, solution.One, input);
+        Submit(solution, 2, solution.Two, input);
+    }
+
+    private static void RunExample(int num, Func<string, Answer> run, string input)
+    {
+        var (answer, ms) = TimeRun(run, input);
+        Console.WriteLine($"Example {num}: {answer} ({ms:0.0}ms)");
+    }
+
+    private static (Answer, double) TimeRun(Func<string, Answer> run, string input)
+    {
+        var answer = run(input);
+        var watch = Stopwatch.StartNew();
+        for (int i = 0; i < 10; i++)
+            run(input);
+        return (answer, watch.ElapsedMilliseconds / 10.0);
     }
 }
