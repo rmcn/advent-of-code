@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Year2015", "2015\Year2015.c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Year2016", "2016\Year2016.csproj", "{E38BC4B8-4568-48C3-B22D-F972EB1CDACD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "All", "All\All.csproj", "{65772D50-314D-4799-A57F-7BB6A398E2A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,9 @@ Global
 		{E38BC4B8-4568-48C3-B22D-F972EB1CDACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E38BC4B8-4568-48C3-B22D-F972EB1CDACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E38BC4B8-4568-48C3-B22D-F972EB1CDACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65772D50-314D-4799-A57F-7BB6A398E2A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65772D50-314D-4799-A57F-7BB6A398E2A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65772D50-314D-4799-A57F-7BB6A398E2A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65772D50-314D-4799-A57F-7BB6A398E2A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

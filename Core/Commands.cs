@@ -5,15 +5,17 @@ namespace AdventOfCode;
 
 public static class Commands
 {
-    public static int Run(string[] args)
+    public static int Run(string[] args) => Run(new Assembly[] { Assembly.GetCallingAssembly() }, args);
+
+    public static int Run(Assembly[] assemblies, string[] args)
     {
         // Create a new solution file via:
         //    dotnet run -- new [year day]
         if (args.Any() &&  args.First() == "new")
             return MetaHelper.NewDay(args);
 
-        var solutions = Assembly.GetCallingAssembly()
-            .GetTypes()
+        var solutions = assemblies
+            .SelectMany(a => a.GetTypes())
             .Where(t => typeof(Solution).IsAssignableFrom(t) && t != typeof(Solution))
             .Select(t => (Solution)Activator.CreateInstance(t)!)
             .Where(s => s.Year != 0)

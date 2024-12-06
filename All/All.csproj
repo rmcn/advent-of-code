@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\2015\Year2015.csproj" />
+    <ProjectReference Include="..\2016\Year2016.csproj" />
+    <ProjectReference Include="..\2017\Year2017.csproj" />
+    <ProjectReference Include="..\2018\Year2018.csproj" />
+    <ProjectReference Include="..\2019\Year2019.csproj" />
+    <ProjectReference Include="..\2020\Year2020.csproj" />
+    <ProjectReference Include="..\2022\Year2022.csproj" />
+    <ProjectReference Include="..\2023\Year2023.csproj" />
+    <ProjectReference Include="..\2024\Year2024.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
