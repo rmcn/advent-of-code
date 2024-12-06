@@ -12,9 +12,15 @@ public class Day06 : Solution
         var g = Grid.ParseFixed(input, '*');
 
         var pos = g.Cells.Single(c => c.Value == '^').Key;
-        g[pos] = '.';
+        var seen = Visits(g, pos);
+
+        return seen.Count;
+    }
+
+    private HashSet<Point> Visits(Grid g, Point pos)
+    {
         var dir = 0;
-        var dirs = new []
+        var dirs = new[]
         {
             new Point(0, -1),
             new Point(1, 0),
@@ -36,8 +42,7 @@ public class Day06 : Solution
             pos = next;
         }
 
-
-        return seen.Count;
+        return seen;
     }
 
     public override Answer Two(string input)
@@ -45,24 +50,26 @@ public class Day06 : Solution
         var g = Grid.ParseFixed(input, '*');
 
         var start = g.Cells.Single(c => c.Value == '^').Key;
-        g[start] = '.';
+
+        var seen = Visits(g, start);
+
 
         int t = 0;
-        foreach (var change in g.Cells.Where(c => c.Value == '.').Select(c => c.Key).ToList())
+        foreach (var change in seen)
         {
             if (change != start)
             {
-                g[change] = '#';
+                g[change] = 'O';
                 if (Loops(g, start))
                     t++;
                 g[change] = '.';
             }
         }
 
-        return t;
+        return t; 
     }
 
-    private static bool Loops(Grid g, Point pos)
+    private bool Loops(Grid g, Point pos)
     {
         var dir = 0;
         var dirs = new[]
@@ -79,15 +86,15 @@ public class Day06 : Solution
         {
             seen.Add((pos, dir));
             var next = pos.Add(dirs[dir]);
-            if (g[next] == '#')
+            while (g[next] == '#' || g[next] == 'O')
             {
                 dir = (dir + 1) % dirs.Length;
+                seen.Add((pos, dir));
                 next = pos.Add(dirs[dir]);
             }
             pos = next;
         }
 
-
-        return seen.Contains((pos, dir));
+        return g[pos] != '*';
     }
 }
