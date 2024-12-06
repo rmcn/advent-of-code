@@ -12,12 +12,12 @@ public static class MetaHelper
         
         var (year, day) = YearDay(args);
 
-        var template = new Year0000.Day00();
+        var templateDir = Path.GetDirectoryName(FilePath())!;
 
-        var templateSource = File.ReadAllText(template.FilePath);
+        var templateSource = File.ReadAllText(Path.Combine(templateDir, "TemplateForDay00.cs"));
         var source = templateSource.Replace("Year0000", $"Year{year}").Replace("Day00", $"Day{day}");
 
-        var targetDirectory = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(template.FilePath))!, year);
+        var targetDirectory = Path.Combine(Path.GetDirectoryName(templateDir)!, year);
         var targetPath = Path.Combine(targetDirectory, $"Day{day}.cs");
 
         Console.WriteLine($"Output path {targetPath}");

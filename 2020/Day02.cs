@@ -3,7 +3,6 @@ namespace AdventOfCode.Year2020;
 
 public class Day02 : Solution
 {
-    public override string FilePath => MetaHelper.FilePath();
     public override string Example => @"";
 
     public override Answer One(string input)

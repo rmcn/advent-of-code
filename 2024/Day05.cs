@@ -5,7 +5,6 @@ namespace AdventOfCode.Year2024;
 
 public class Day05 : Solution
 {
-    public override string FilePath => MetaHelper.FilePath();
     public override string Example => @"";
 
     public override Answer One(string input)
