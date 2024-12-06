@@ -17,7 +17,7 @@ public static class MetaHelper
         var templateSource = File.ReadAllText(template.FilePath);
         var source = templateSource.Replace("Year0000", $"Year{year}").Replace("Day00", $"Day{day}");
 
-        var targetDirectory = Path.Combine(Path.GetDirectoryName(template.FilePath)!, year);
+        var targetDirectory = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(template.FilePath))!, year);
         var targetPath = Path.Combine(targetDirectory, $"Day{day}.cs");
 
         Console.WriteLine($"Output path {targetPath}");
