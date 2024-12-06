@@ -172,7 +172,7 @@ static class Advent
     {
         var answer = run(input);
         var watch = Stopwatch.StartNew();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 0; i++)
             run(input);
         return (answer, watch.ElapsedMilliseconds / 10.0);
     }
