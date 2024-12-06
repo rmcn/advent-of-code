@@ -11,6 +11,7 @@
     <ProjectReference Include="..\2022\Year2022.csproj" />
     <ProjectReference Include="..\2023\Year2023.csproj" />
     <ProjectReference Include="..\2024\Year2024.csproj" />
+    <ProjectReference Include="..\2021\Year2021.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
