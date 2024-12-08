@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace AdventOfCode;
 
@@ -77,5 +78,19 @@ public class Grid<T>
             : modY;
 
         return new Point(x, y);
+    }
+
+    public string Dump()
+    {
+        var sb = new StringBuilder();
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                sb.Append(Cells[new Point(x, y)]);
+            }
+            sb.Append('\n');
+        }
+        return sb.ToString();
     }
 }
