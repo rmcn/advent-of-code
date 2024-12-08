@@ -41,7 +41,7 @@ public class Grid<T>
 
     public Grid(string input, Func<char, T> parse, T outOfBoundsValue, bool infinite)
     {
-        var rows = input.Lines().Where(IsNotBlank).ToList();
+        var rows = input.Lines().Where(IsNotBlank).Select(l => l.Trim()).ToList();
 
         Width = rows.First().Length;
         Height = rows.Count;
@@ -93,4 +93,6 @@ public class Grid<T>
         }
         return sb.ToString();
     }
+
+    public bool InBounds(Point p) => p.X >=0 && p.X < Width && p.Y >= 0 && p.Y < Height;
 }
