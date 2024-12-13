@@ -27,4 +27,5 @@ public static class Extensions
     public static T Product<T>(this IEnumerable<T> values) where T : INumber<T>
         => values.Aggregate(T.One, (a, b) => a * b);
     public static Point Add(this Point a, Point b) => new(a.X + b.X, a.Y + b.Y);
+    public static Point Add(this Point a, int x, int y) => new(a.X + x, a.Y + y);
 }
