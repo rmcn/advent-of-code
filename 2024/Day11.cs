@@ -8,48 +8,75 @@ public class Day11 : Solution
 
     public override Answer One(string input)
     {
-        var l = new LinkedList<long>(input.Longs());
-        for (int i = 0; i < 25; i++)
+        var l = new List<long>(input.Longs());
+        return BlinkN(l, 25).Count;
+    }
+
+    private List<long> BlinkN(List<long> l, int n)
+    {
+        for (int i = 0; i < n; i++)
         {
             Blink(l);
         }
-        return l.Count;
+        return l;
     }
 
-    private void Blink(LinkedList<long> l)
+    private void Blink(List<long> l)
     {
-        var n = l.First;
-        while (n != null)
+        var count = l.Count;
+        for (int i = 0; i < count; i++)
         {
-            var s = n.Value.ToString();
+            var s = l[i].ToString();
 
             if (s == "0")
             {
-                var replacement = l.AddAfter(n, 1);
-                l.Remove(n);
-                n = replacement;
+                l[i] = 1;
             }
             else if (s.Length % 2 == 0)
             {
-                var replacement = l.AddAfter(n, long.Parse(s.Substring(s.Length / 2)));
-                l.AddBefore(n, long.Parse(s.Substring(0, s.Length / 2)));
-                l.Remove(n);
-                n = replacement;
+                l[i] = long.Parse(s.Substring(s.Length / 2));
+                l.Add(long.Parse(s.Substring(0, s.Length / 2)));
             }
             else
             {
-                var replacement = l.AddAfter(n, n.Value * 2024);
-                l.Remove(n);
-                n = replacement;
-
+                l[i] = l[i] * 2024;
             }
-
-            n = n.Next;
         }
     }
 
     public override Answer Two(string input)
     {
-        return 0;
+        var memo5Step = new Dictionary<long, Dictionary<long, long>>();
+
+        var counts = GetCounts(input.Longs());
+
+        for (int mi = 0; mi < 15; mi++)
+        {
+            var newCounts = new Dictionary<long, long>();
+            foreach (var kvp in counts)
+            {
+                if (!memo5Step.ContainsKey(kvp.Key))
+                {
+                    var l5 = new List<long>(new [] {kvp.Key});
+                    BlinkN(l5, 5);
+                    memo5Step[kvp.Key] = GetCounts(l5);
+                }
+
+                var children = memo5Step[kvp.Key];
+                foreach (var child in children)
+                {
+                    var prev = newCounts.TryGetValue(child.Key, out var x) ? x : 0; 
+                    newCounts[child.Key] = prev + child.Value * kvp.Value;
+                }
+            }
+            counts = newCounts;
+        }
+
+        return counts.Sum(kvp => kvp.Value);
+    }
+
+    private static Dictionary<long, long> GetCounts(List<long> nums)
+    {
+        return nums.GroupBy(l => l).ToDictionary(g => g.Key, g => g.LongCount());
     }
 }
