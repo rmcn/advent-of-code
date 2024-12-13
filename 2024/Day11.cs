@@ -50,16 +50,14 @@ public class Day11 : Solution
 
         var counts = GetCounts(input.Longs());
 
-        for (int mi = 0; mi < 15; mi++)
+        for (int mi = 0; mi < 15; mi++) // 15 * 5 step = 75
         {
             var newCounts = new Dictionary<long, long>();
             foreach (var kvp in counts)
             {
                 if (!memo5Step.ContainsKey(kvp.Key))
                 {
-                    var l5 = new List<long>(new [] {kvp.Key});
-                    BlinkN(l5, 5);
-                    memo5Step[kvp.Key] = GetCounts(l5);
+                    memo5Step[kvp.Key] = GetCounts(BlinkN(new List<long>(new [] {kvp.Key}), 5));
                 }
 
                 var children = memo5Step[kvp.Key];
