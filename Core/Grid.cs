@@ -65,16 +65,18 @@ public class Grid<T>
         }
     }
 
-    private Point Wrap(Point p)
+    private Point Wrap(Point p) => Grid.Wrap(p, Width, Height);
+
+    public static Point Wrap(Point p, int width, int height)
     {
-        var modX = p.X % Width;
+        var modX = p.X % width;
         var x = p.X < 0
-            ? Width + (modX == 0 ? -Width : modX)
+            ? width + (modX == 0 ? -width : modX)
             : modX;
 
-        var modY = p.Y % Height;
+        var modY = p.Y % height;
         var y = p.Y < 0
-            ? Height + (modY == 0 ? -Height : modY)
+            ? height + (modY == 0 ? -height : modY)
             : modY;
 
         return new Point(x, y);
