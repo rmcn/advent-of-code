@@ -54,9 +54,9 @@ public class Day09 : Solution
     private void Dump(int[] map, int i, int iFrom)
     {
         return;
-        LogEx(new string(' ', i) + 'v');
-        LogEx(string.Join("", map.Select(i => i.ToString())));
-        LogEx(new string(' ', iFrom) + '^');
+        //LogEx(new string(' ', i) + 'v');
+        //LogEx(string.Join("", map.Select(i => i.ToString())));
+        //LogEx(new string(' ', iFrom) + '^');
     }
 
     public override Answer Two(string input)
