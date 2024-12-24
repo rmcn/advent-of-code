@@ -23,6 +23,12 @@ public class Grid : Grid<char>
     public static Grid ParseFixed(string input, char outOfBoundsValue)
         => new Grid(input, outOfBoundsValue, infinite: false);
 
+    public static Grid Fixed(int width, int height, char fillValue, char outOfBoundsValue)
+    {
+        var input = string.Join('\n', MoreEnumerable.Sequence(0, height-1).Select(_ => new string(fillValue, width)));
+        return new Grid(input, outOfBoundsValue, infinite: false);
+    }
+
     public static Grid Parse(string input, char outOfBoundsValue, bool infinite = false)
         => new Grid(input, outOfBoundsValue, infinite);
     public static Grid<T> Parse<T>(string input, Func<char, T> parse, T outOfBoundsValue, bool infinite = false)
